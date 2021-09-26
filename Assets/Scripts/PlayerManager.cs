@@ -7,8 +7,8 @@ namespace Count_Master_SAY.Control
     {
         [SerializeField] private List<GameObject> persons = new List<GameObject>();
         List<Vector3> distanceToCenter = new List<Vector3>();
-        public int fMagnitude = 10;
-        float delay = 0.3f;
+        public int fMagnitude = 25;
+        readonly float delay = 0.4f;
         float timer = 0;
         void Start()
         {
