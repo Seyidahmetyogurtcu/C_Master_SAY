@@ -17,6 +17,23 @@ namespace Count_Master_SAY
             onPlayerMoveTriggerEnter?.Invoke(); //if it exist then invoke this action.
         }
 
+        public event Action<string> onPlayerAtackTriggerEnter;
+        public void PlayerAtackTriggerEnter(string text)
+        {
+            onPlayerAtackTriggerEnter?.Invoke(text);
+        }
+        
+        public event Action<string> onReplicatorTriggerEnter;
+        public void ReplicatorTriggerEnter(string text)
+        {
+            onReplicatorTriggerEnter?.Invoke(text);
+        }
+
+        public event Action onFinishTriggerEnter;
+        public void FinishTriggerEnter()
+        {
+            onFinishTriggerEnter?.Invoke();
+        }
     }
 
 }
