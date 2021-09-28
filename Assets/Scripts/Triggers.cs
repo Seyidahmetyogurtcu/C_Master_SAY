@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Count_Master_SAY;
 using UnityEngine.UI;
+using Count_Master_SAY.Control;
 /// <summary>
 /// This is for event triggers,this class trigger and call events 
 /// </summary>
@@ -34,10 +35,10 @@ namespace Count_Master_SAY.Trigger
 
             else if (other.tag == "EnemyZone")
             {
-                string EnemiesCountText = other.GetComponentInChildren<Text>().text;
+                int id = other.GetComponentInChildren<Enemies>().id;
 
                 //Call this event
-                EventManager.singleton.PlayerAtackTriggerEnter(EnemiesCountText);
+                EventManager.singleton.PlayerAtackTriggerEnter(id);
                 Debug.Log("EnemiesCountText");
             }
             else if (other.tag == "FinishZone")

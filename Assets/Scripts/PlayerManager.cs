@@ -15,12 +15,12 @@ namespace Count_Master_SAY.Control
         public int fMagnitude = 3;
         readonly float slowingMultiplier = 10;
         public static PlayerManager singleton;
-        int personSpeed=15;
+        int personSpeed = 25;
         //float appliedGravityDelay = 0.5f;
         //float timer = 0;
         private void Awake()
         {
-            singleton= this;
+            singleton = this;
         }
         void Start()
         {
@@ -28,7 +28,7 @@ namespace Count_Master_SAY.Control
             EventManager.singleton.onPlayerMoveTriggerEnter += OnPlayerMove;
             EventManager.singleton.onPlayerAtackTriggerEnter += OnPlayerAtack;
             EventManager.singleton.onReplicatorTriggerEnter += OnReplicator;
-            EventManager.singleton.onFinishTriggerEnter +=OnFinish;
+            EventManager.singleton.onFinishTriggerEnter += OnFinish;
         }
         void OnDestroy()
         {
@@ -55,50 +55,52 @@ namespace Count_Master_SAY.Control
         private void OnReplicator(string text)
         {
             //Look() the replicator then get its sign and number
-           
+
             //Addition
             if (text.Contains("+"))
             {
                 string[] numberPart = text.Split('+');
                 //Calculate() the transaction
                 int addCount = int.Parse(numberPart[1]); //  1 this means get string after ' ' space , 0 means get string before ' ' space
-                for (int i = 1; i <= addCount* slowingMultiplier; i++)
+                for (int i = 1; i <= addCount * slowingMultiplier; i++)
                 {
                     //Instantiate() persons slowingMultiplier times slowly 
-                    if (i% slowingMultiplier == 0)
-                    { 
-                        persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5)), Quaternion.identity,this.transform));
+                    if (i % slowingMultiplier == 0)
+                    {
+                        persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5)), Quaternion.identity, this.transform));
                     }
                 }
                 return;
             }
             //Multiply
             else if (text.Contains("x"))
-            { 
-                string[] numberPart =text.Split('x');
+            {
+                string[] numberPart = text.Split('x');
                 //Calculate() the transaction
                 int multiplyCount = int.Parse(numberPart[1]); //  1 this means get string after ' ' space , 0 means get string before ' ' space
                 int totalAdd = (multiplyCount - 1) * persons.Count;
-                for (int i = 0; i < totalAdd * slowingMultiplier; i++)
+                for (int i = 1; i < totalAdd * slowingMultiplier; i++)
                 {
                     //Instantiate() persons slowingMultiplier times slowly 
                     if (i % slowingMultiplier == 0)
                     {
-                        persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 0, UnityEngine.Random.Range(-5, 5)), Quaternion.identity,this.transform));
+                        persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 0, UnityEngine.Random.Range(-5, 5)), Quaternion.identity, this.transform));
                     }
                 }
                 return;
             }
         }
 
-        private void OnPlayerAtack(string text)
+        private void OnPlayerAtack(int id)
         {
-            Debug.Log("PlayerAtack Event Worked");
-
-            //TODO:GetEnemyList()
-
-            //TODO:Then Decrease the enemy with our persons 1 by 1 (start with nearer positions)
-
+            //GetEnemyList()
+            int enemiesCount = EnemyManager.singleton.enemiesGroupArray[id].enemies.Count;
+            for (int i=(enemiesCount - 1); i >= 0; i--)
+            {
+                //TODO:Then Decrease the enemy with our persons 1 by 1 (start with nearer positions)
+                Destroy(EnemyManager.singleton.enemiesGroupArray[id].enemies[EnemyManager.singleton.enemiesGroupArray[1].enemies.Count - 1],1f);
+                EnemyManager.singleton.enemiesGroupArray[id].enemies.RemoveAt(EnemyManager.singleton.enemiesGroupArray[1].enemies.Count - 1);
+            }
         }
 
         private void OnPlayerMove()
@@ -115,7 +117,7 @@ namespace Count_Master_SAY.Control
             //if (Time.timeSinceLevelLoad > timer)
             //{
             //    timer = appliedGravityDelay + Time.timeSinceLevelLoad;
-                Attract();
+            Attract();
             //}       
         }
 

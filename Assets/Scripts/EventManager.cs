@@ -17,10 +17,10 @@ namespace Count_Master_SAY
             onPlayerMoveTriggerEnter?.Invoke(); //if it exist then invoke this action.
         }
 
-        public event Action<string> onPlayerAtackTriggerEnter;
-        public void PlayerAtackTriggerEnter(string text)
+        public event Action<int> onPlayerAtackTriggerEnter;
+        public void PlayerAtackTriggerEnter(int id)
         {
-            onPlayerAtackTriggerEnter?.Invoke(text);
+            onPlayerAtackTriggerEnter?.Invoke(id);
         }
         
         public event Action<string> onReplicatorTriggerEnter;

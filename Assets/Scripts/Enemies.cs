@@ -7,5 +7,7 @@ namespace Count_Master_SAY.Control
     public class Enemies:MonoBehaviour
     {
         public List<GameObject> enemies = new List<GameObject>();
+
+        public int id;
     }
 }

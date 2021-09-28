@@ -13,10 +13,16 @@ namespace Count_Master_SAY.Control
         {
             singleton = this;
         }
-        void Start()
+       private void Start()
         {
             enemiesGroupArray = enemiesGroupList.ToArray();
             enemiesGroupArray = this.GetComponentsInChildren<Enemies>();
+            int i = 0;
+            foreach (var enemiesGroup in enemiesGroupArray)
+            {
+                enemiesGroup.id = i;
+                i++;
+            }
         }
 
     }
