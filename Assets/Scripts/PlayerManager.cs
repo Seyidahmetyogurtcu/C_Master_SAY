@@ -12,7 +12,7 @@ namespace Count_Master_SAY.Control
         [Space]
         public GameObject personPrefab;
         List<Vector3> distanceToCenter = new List<Vector3>();
-        public int fMagnitude = 4;
+        public int fMagnitude = 3;
         readonly float slowingMultiplier = 10;
         public static PlayerManager singleton;
         int personSpeed=15;
@@ -67,7 +67,7 @@ namespace Count_Master_SAY.Control
                     //Instantiate() persons slowingMultiplier times slowly 
                     if (i% slowingMultiplier == 0)
                     { 
-                        persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5)), Quaternion.identity));
+                        persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5)), Quaternion.identity,this.transform));
                     }
                 }
                 return;
@@ -84,7 +84,7 @@ namespace Count_Master_SAY.Control
                     //Instantiate() persons slowingMultiplier times slowly 
                     if (i % slowingMultiplier == 0)
                     {
-                        persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 0, UnityEngine.Random.Range(-5, 5)), Quaternion.identity));
+                        persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 0, UnityEngine.Random.Range(-5, 5)), Quaternion.identity,this.transform));
                     }
                 }
                 return;

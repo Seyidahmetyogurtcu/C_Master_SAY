@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerController : MonoBehaviour
+namespace Count_Master_SAY.Control
 {
-    public Vector3 initialPosition;
-    private Vector3 finalPosition;
-    float normalizeSpeed = 0.003f;
-    private void Update()
+    public class PlayerController : MonoBehaviour
     {
+        public Vector3 initialPosition;
+        private Vector3 finalPosition;
+        float normalizeSpeed = 0.003f;
+        private void Update()
+        {
 #if UNITY_ANDROID && !UNITY_EDITOR_64
         if (Input.touchCount < 0)
         {
@@ -31,21 +33,22 @@ public class PlayerController : MonoBehaviour
 #endif
 
 #if UNITY_EDITOR_64
-        if (Input.GetMouseButtonDown(0))
-        {
-            initialPosition = Input.mousePosition;
-        }
-        if (Input.GetMouseButton(0))
-        {
-            finalPosition = Input.mousePosition;
+            if (Input.GetMouseButtonDown(0))
+            {
+                initialPosition = Input.mousePosition;
+            }
+            if (Input.GetMouseButton(0))
+            {
+                finalPosition = Input.mousePosition;
 
-            Vector3 temp = initialPosition - finalPosition;
-            Vector3 temp2 = Vector3.zero;
-            temp2.z = temp.x; // this is because screen UI use x(horizontal)-y(vertical) coordinate 
+                Vector3 temp = initialPosition - finalPosition;
+                Vector3 temp2 = Vector3.zero;
+                temp2.z = temp.x; // this is because screen UI use x(horizontal)-y(vertical) coordinate 
 
-            this.gameObject.transform.position += (temp2 * normalizeSpeed);
-        }
-        Debug.Log(" Input.mousePosition: " + Input.mousePosition);
+                this.gameObject.transform.position += (temp2 * normalizeSpeed);
+            }
 #endif
+        }
     }
 }
+

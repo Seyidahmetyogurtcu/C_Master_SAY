@@ -6,59 +6,63 @@ using UnityEngine.UI;
 /// <summary>
 /// This is for event triggers,this class trigger and call events 
 /// </summary>
-public class Triggers : MonoBehaviour
+namespace Count_Master_SAY.Trigger
 {
-    float time=0;
-    readonly float delay = 0.3f;
-    private void FixedUpdate()
+    public class Triggers : MonoBehaviour
     {
-        EventManager.singleton.PlayerMoveTriggerEnter();
-    }
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-
-        if (other.tag == "Replicator" && (Time.timeSinceLevelLoad > time))
+        float time = 0;
+        readonly float delay = 0.3f;
+        private void FixedUpdate()
         {
-            //Add delay to prevent colliders' clash
-            time = Time.timeSinceLevelLoad+delay;
-
-            //Get its text
-            string ReplicatorText = other.GetComponentInChildren<Text>().text;
-
-            //Call this event
-            EventManager.singleton.ReplicatorTriggerEnter(ReplicatorText);
+            EventManager.singleton.PlayerMoveTriggerEnter();
         }
 
-        else if (other.tag == "EnemyZone")
+        private void OnTriggerEnter(Collider other)
         {
-            string EnemiesCountText = other.GetComponentInChildren<Text>().text;
 
-            //Call this event
-            EventManager.singleton.PlayerAtackTriggerEnter(EnemiesCountText);
-        }
-        else if (other.tag == "FinishZone")
-        {
-            //Call this event
-            EventManager.singleton.FinishTriggerEnter();
-        }
-    }
+            if (other.tag == "Replicator" && (Time.timeSinceLevelLoad > time))
+            {
+                //Add delay to prevent colliders' clash
+                time = Time.timeSinceLevelLoad + delay;
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "FinishZone")
-        {
-            //Call this event
-        }
-        if (other.tag == "Replicator")
-        {
-            //Call this event
+                //Get its text
+                string ReplicatorText = other.GetComponentInChildren<Text>().text;
+
+                //Call this event
+                EventManager.singleton.ReplicatorTriggerEnter(ReplicatorText);
+            }
+
+            else if (other.tag == "EnemyZone")
+            {
+                string EnemiesCountText = other.GetComponentInChildren<Text>().text;
+
+                //Call this event
+                EventManager.singleton.PlayerAtackTriggerEnter(EnemiesCountText);
+                Debug.Log("EnemiesCountText");
+            }
+            else if (other.tag == "FinishZone")
+            {
+                //Call this event
+                EventManager.singleton.FinishTriggerEnter();
+                Debug.Log("Finished");
+            }
         }
 
-        if (other.tag == "EnemyZone")
+        private void OnTriggerExit(Collider other)
         {
-            //Call this event
+            if (other.tag == "FinishZone")
+            {
+                //Call this event
+            }
+            if (other.tag == "Replicator")
+            {
+                //Call this event
+            }
+
+            if (other.tag == "EnemyZone")
+            {
+                //Call this event
+            }
         }
     }
 }
