@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9061807582565035729}
   - component: {fileID: 2777340519492145663}
   m_Layer: 0
-  m_Name: R_Arm2
+  m_Name: R_Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 324dd7aa19dfb7b4987ef08a6528d22e, type: 2}
+  - {fileID: 2100000, guid: 6d802cd376b303d4eb9d2cfe2e854375, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 3688709187601143825}
   - component: {fileID: 7820430182493673668}
   m_Layer: 0
-  m_Name: Body2
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -140,7 +140,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 324dd7aa19dfb7b4987ef08a6528d22e, type: 2}
+  - {fileID: 2100000, guid: 6d802cd376b303d4eb9d2cfe2e854375, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 4945730878354882871}
   - component: {fileID: 4921235398447204223}
   m_Layer: 0
-  m_Name: Person
+  m_Name: Enemy
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 3064102094118066984}
   - component: {fileID: 1967769719528201992}
   m_Layer: 0
-  m_Name: Head2
+  m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -317,7 +317,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 324dd7aa19dfb7b4987ef08a6528d22e, type: 2}
+  - {fileID: 2100000, guid: 6d802cd376b303d4eb9d2cfe2e854375, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 3301721573409334819}
   - component: {fileID: 4106075506013987725}
   m_Layer: 0
-  m_Name: L_Arm2
+  m_Name: L_Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -398,7 +398,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 324dd7aa19dfb7b4987ef08a6528d22e, type: 2}
+  - {fileID: 2100000, guid: 6d802cd376b303d4eb9d2cfe2e854375, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

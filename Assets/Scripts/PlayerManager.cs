@@ -8,12 +8,20 @@ namespace Count_Master_SAY.Control
 {
     public class PlayerManager : MonoBehaviour
     {
-        [SerializeField] private List<GameObject> persons = new List<GameObject>();
+        public List<GameObject> persons = new List<GameObject>();
+        [Space]
+        public GameObject personPrefab;
         List<Vector3> distanceToCenter = new List<Vector3>();
-        public int fMagnitude = 25;
-        readonly float delay = 0.4f;
-        float timer = 0;
-
+        public int fMagnitude = 4;
+        readonly float slowingMultiplier = 10;
+        public static PlayerManager singleton;
+        int personSpeed=15;
+        //float appliedGravityDelay = 0.5f;
+        //float timer = 0;
+        private void Awake()
+        {
+            singleton= this;
+        }
         void Start()
         {
             //subscribe
@@ -46,23 +54,41 @@ namespace Count_Master_SAY.Control
 
         private void OnReplicator(string text)
         {
+            //Look() the replicator then get its sign and number
+           
+            //Addition
             if (text.Contains("+"))
             {
-                //TODO:Addition
-                Debug.Log("Addition and text is"+ text);
+                string[] numberPart = text.Split('+');
+                //Calculate() the transaction
+                int addCount = int.Parse(numberPart[1]); //  1 this means get string after ' ' space , 0 means get string before ' ' space
+                for (int i = 1; i <= addCount* slowingMultiplier; i++)
+                {
+                    //Instantiate() persons slowingMultiplier times slowly 
+                    if (i% slowingMultiplier == 0)
+                    { 
+                        persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5)), Quaternion.identity));
+                    }
+                }
+                return;
             }
-            if (text.Contains("x"))
-            {
-                //TODO:Multiply
-                Debug.Log("Multiplyand text is" + text);
+            //Multiply
+            else if (text.Contains("x"))
+            { 
+                string[] numberPart =text.Split('x');
+                //Calculate() the transaction
+                int multiplyCount = int.Parse(numberPart[1]); //  1 this means get string after ' ' space , 0 means get string before ' ' space
+                int totalAdd = (multiplyCount - 1) * persons.Count;
+                for (int i = 0; i < totalAdd * slowingMultiplier; i++)
+                {
+                    //Instantiate() persons slowingMultiplier times slowly 
+                    if (i % slowingMultiplier == 0)
+                    {
+                        persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 0, UnityEngine.Random.Range(-5, 5)), Quaternion.identity));
+                    }
+                }
+                return;
             }
-
-            //TODO:Look() the replicator then get its sign and number
-
-            //TODO:Calculate() the transaction
-
-            //TODO:Instantiate() persons 
-
         }
 
         private void OnPlayerAtack(string text)
@@ -78,7 +104,7 @@ namespace Count_Master_SAY.Control
         private void OnPlayerMove()
         {
             //Todo:Move all player characters horizontaly
-            transform.Translate(new Vector3(Time.fixedDeltaTime * 5, 0, 0), Space.Self);
+            transform.Translate(new Vector3(Time.fixedDeltaTime * personSpeed, 0, 0), Space.Self);
         }
 
 
@@ -86,11 +112,11 @@ namespace Count_Master_SAY.Control
 
         void Update()
         {
-            if (Time.timeSinceLevelLoad> timer)
-            {
-                timer = delay + Time.timeSinceLevelLoad;
+            //if (Time.timeSinceLevelLoad > timer)
+            //{
+            //    timer = appliedGravityDelay + Time.timeSinceLevelLoad;
                 Attract();
-            }       
+            //}       
         }
 
         private void Attract()

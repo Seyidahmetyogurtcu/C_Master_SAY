@@ -8,6 +8,8 @@ using UnityEngine.UI;
 /// </summary>
 public class Triggers : MonoBehaviour
 {
+    float time=0;
+    readonly float delay = 0.3f;
     private void FixedUpdate()
     {
         EventManager.singleton.PlayerMoveTriggerEnter();
@@ -17,13 +19,16 @@ public class Triggers : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        if (other.tag == "Replicator")
+        if (other.tag == "Replicator" && (Time.timeSinceLevelLoad > time))
         {
+            //Add delay to prevent colliders' clash
+            time = Time.timeSinceLevelLoad+delay;
+
             //Get its text
             string ReplicatorText = other.GetComponentInChildren<Text>().text;
 
             //Call this event
-            EventManager.singleton.ReplicatorTriggerEnter(ReplicatorText);         
+            EventManager.singleton.ReplicatorTriggerEnter(ReplicatorText);
         }
 
         else if (other.tag == "EnemyZone")
