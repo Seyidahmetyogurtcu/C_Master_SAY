@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Count_Master_SAY.UI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,10 +13,12 @@ namespace Count_Master_SAY.Control
         [Space]
         public GameObject personPrefab;
         List<Vector3> distanceToCenter = new List<Vector3>();
+
         public int fMagnitude = 3;
         readonly float slowingMultiplier = 10;
         public static PlayerManager singleton;
         int personSpeed = 25;
+        int floorHeigth = 5;
         //float appliedGravityDelay = 0.5f;
         //float timer = 0;
         private void Awake()
@@ -49,6 +52,8 @@ namespace Count_Master_SAY.Control
             //ClimbPersonSeperatly()
 
             //MoveObByLeaving()
+
+            //WinLevel()
 
         }
 
@@ -84,7 +89,7 @@ namespace Count_Master_SAY.Control
                     //Instantiate() persons slowingMultiplier times slowly 
                     if (i % slowingMultiplier == 0)
                     {
-                        persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 0, UnityEngine.Random.Range(-5, 5)), Quaternion.identity, this.transform));
+                        persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5)), Quaternion.identity, this.transform));
                     }
                 }
                 return;
@@ -95,11 +100,11 @@ namespace Count_Master_SAY.Control
         {
             //GetEnemyList()
             int enemiesCount = EnemyManager.singleton.enemiesGroupArray[id].enemies.Count;
-            for (int i=(enemiesCount - 1); i >= 0; i--)
+            for (int i = (enemiesCount - 1); i >= 0; i--)
             {
                 //TODO:Then Decrease the enemy with our persons 1 by 1 (start with nearer positions)
-                Destroy(EnemyManager.singleton.enemiesGroupArray[id].enemies[EnemyManager.singleton.enemiesGroupArray[1].enemies.Count - 1],1f);
-                EnemyManager.singleton.enemiesGroupArray[id].enemies.RemoveAt(EnemyManager.singleton.enemiesGroupArray[1].enemies.Count - 1);
+                Destroy(EnemyManager.singleton.enemiesGroupArray[id].enemies[EnemyManager.singleton.enemiesGroupArray[id].enemies.Count - 1], 1f);
+                EnemyManager.singleton.enemiesGroupArray[id].enemies.RemoveAt(EnemyManager.singleton.enemiesGroupArray[id].enemies.Count - 1);
             }
         }
 
@@ -117,18 +122,87 @@ namespace Count_Master_SAY.Control
             //if (Time.timeSinceLevelLoad > timer)
             //{
             //    timer = appliedGravityDelay + Time.timeSinceLevelLoad;
-            Attract();
+            if (Time.timeScale == 1)
+            {
+                FallDetection();
+                Invoke("Attract", 0.01f);
+                LoseDetection();
+
+            }
             //}       
         }
-
         private void Attract()
         {
             for (int i = 0; i < persons.Count; i++)
             {
-                distanceToCenter.Add(this.transform.position - persons[i].transform.position);
-                persons[i].GetComponent<Rigidbody>().AddForce(distanceToCenter[i] * fMagnitude, ForceMode.Force);
+                distanceToCenter.Add(this.transform.position - persons[i].transform.position);//gets vector from person to center
+                float dotted = Vector3.Dot(distanceToCenter[i], Vector3.up);  //get vertical(Y-axsis) projection
+                Vector3 temp = distanceToCenter[i] - (dotted * Vector3.up);    //delete vertical(Y-axsis) projection to get X-Z vector
+                persons[i].GetComponent<Rigidbody>().AddForce(temp * fMagnitude, ForceMode.Force);
             }
             distanceToCenter.Clear();
+        }
+
+        List<int> positionInArray = new List<int>();
+        private void FallDetection()
+        {
+            //for (int i = 1; i < persons.Count; i++)
+            //{
+            //    if (persons[i].transform.position.y < floorHeigth)
+            //    {
+            //        int positionInArray = System.Array.IndexOf(persons.ToArray(), persons[i]);
+            //        DestroyImmediate(persons[positionInArray]);
+            //        persons.RemoveAt(positionInArray);
+            //    }
+            //}
+
+            foreach (GameObject person in persons)
+            {
+                if (person.transform.position.y < floorHeigth)
+                {
+                    CancelInvoke("Attract");
+                    positionInArray.Add(System.Array.IndexOf(persons.ToArray(), person));
+                    Destroy(persons[System.Array.IndexOf(persons.ToArray(), person)]);
+                }
+            }
+            BubbleSort(positionInArray);
+            foreach (int position in positionInArray)
+            {
+                persons.RemoveAt(position);
+            }
+            positionInArray.Clear();
+        }
+        private void LoseDetection()
+        {
+            if (persons.Count==0)
+            {
+                Die();
+            }
+        }
+
+
+        void Die()
+        {
+            UIManager.singleton.Lose();
+        }
+
+        public static void BubbleSort(List<int> input)
+        {
+            bool itemMoved = false;
+            do
+            {
+                itemMoved = false;
+                for (int i = 0; i < input.Count - 1; i++)
+                {
+                    if (input[i] < input[i + 1])
+                    {
+                        int higherValue = input[i + 1];
+                        input[i + 1] = input[i];
+                        input[i] = higherValue;
+                        itemMoved = true;
+                    }
+                }
+            } while (itemMoved);
         }
     }
 }

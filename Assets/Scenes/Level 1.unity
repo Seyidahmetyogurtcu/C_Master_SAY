@@ -1282,7 +1282,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5825264205317615752, guid: e7be76469f708e041a36ea1d46167525, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.88
+      value: 2.05
       objectReference: {fileID: 0}
     - target: {fileID: 5825264205317615752, guid: e7be76469f708e041a36ea1d46167525, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1716,7 +1716,7 @@ GameObject:
   - component: {fileID: 364423923}
   - component: {fileID: 364423922}
   m_Layer: 0
-  m_Name: EnemiGroup2
+  m_Name: EnemyGroup2
   m_TagString: EnemyZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1850,6 +1850,7 @@ MonoBehaviour:
   - {fileID: 1764530275}
   - {fileID: 1100519863}
   - {fileID: 285598734}
+  id: 1
 --- !u!65 &364423923
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2178,8 +2179,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1017024681}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: Play
+        m_TargetAssemblyTypeName: Count_Master_SAY.UI.UIManager, Assembly-CSharp
+        m_MethodName: PlayButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3891,8 +3892,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1017024681}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: Restart
+        m_TargetAssemblyTypeName: Count_Master_SAY.UI.UIManager, Assembly-CSharp
+        m_MethodName: RestartButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4867,6 +4868,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playersText: {fileID: 0}
   playersCount: 0
+  winPanel: {fileID: 467057992}
+  inGamePanel: {fileID: 1691484504}
+  losePanel: {fileID: 1184814295}
 --- !u!1 &1030881076 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6298511003389628308, guid: e7be76469f708e041a36ea1d46167525, type: 3}
@@ -6893,8 +6897,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1017024681}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: Exit
+        m_TargetAssemblyTypeName: Count_Master_SAY.UI.UIManager, Assembly-CSharp
+        m_MethodName: ExitButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7230,8 +7234,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1017024681}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: NextLevel
+        m_TargetAssemblyTypeName: Count_Master_SAY.UI.UIManager, Assembly-CSharp
+        m_MethodName: NextLevelButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8721,7 +8725,7 @@ GameObject:
   - component: {fileID: 1846461894}
   - component: {fileID: 1846461895}
   m_Layer: 0
-  m_Name: EnemiGroup1
+  m_Name: EnemyGroup1
   m_TagString: EnemyZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8840,6 +8844,7 @@ MonoBehaviour:
   - {fileID: 1874016070}
   - {fileID: 1149437993}
   - {fileID: 892921389}
+  id: 0
 --- !u!1 &1850908159 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6298511003389628308, guid: 409e7f17270e58045b2cdf676b0f8961, type: 3}
@@ -10596,8 +10601,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1017024681}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: Restart
+        m_TargetAssemblyTypeName: Count_Master_SAY.UI.UIManager, Assembly-CSharp
+        m_MethodName: RestartButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
