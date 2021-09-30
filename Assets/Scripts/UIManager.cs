@@ -10,8 +10,6 @@ namespace Count_Master_SAY.UI
     public class UIManager : MonoBehaviour
     {
         public static UIManager singleton;
-        public Text playersText;
-        public float playersCount;
         [SerializeField] private GameObject winPanel;
         [SerializeField] private GameObject inGamePanel;
         [SerializeField] private GameObject losePanel;
@@ -72,7 +70,6 @@ namespace Count_Master_SAY.UI
             inGamePanel.SetActive(false);
             losePanel.SetActive(true);
         }
-
         public void WinLevel()
         {
             //Set you win panel

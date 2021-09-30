@@ -11,7 +11,7 @@ namespace Count_Master_SAY.Control
         private Vector3 finalPosition;
         float normalizeSpeedForPc = 0.003f;
         float normalizeSpeedForMobile = 0.005f;
-
+        Vector3 clampedPos = new Vector3(1, 1, 1);
         private void Update()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR_64
@@ -29,7 +29,10 @@ namespace Count_Master_SAY.Control
                 Vector3 temp = initialPosition- finalPosition;
                 Vector3 temp2=Vector3.zero;
                 temp2.z = temp.x;// this is because screen UI use x(horizontal)-y(vertical) coordinate 
-                this.gameObject.transform.position += (temp2*normalizeSpeedForMobile);
+
+                clampedPos += (temp2 * normalizeSpeedForMobile);
+                clampedPos.z = Mathf.Clamp(clampedPos.z, -16.5f, +16.5f);
+                this.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, clampedPos.z);
             }
         }
 #endif
@@ -47,7 +50,9 @@ namespace Count_Master_SAY.Control
                 Vector3 temp2 = Vector3.zero;
                 temp2.z = temp.x; // this is because screen UI use x(horizontal)-y(vertical) coordinate 
 
-                this.gameObject.transform.position += (temp2 * normalizeSpeedForPc);
+                clampedPos += (temp2 * normalizeSpeedForPc);
+                clampedPos.z = Mathf.Clamp(clampedPos.z, -16.5f, +16.5f);
+                this.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, clampedPos.z);
             }
 #endif
         }

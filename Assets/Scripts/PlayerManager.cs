@@ -48,7 +48,7 @@ namespace Count_Master_SAY.Control
             //GetPersonsCount()
 
             //CalculateSeperation()
-
+            //persons.Count
             //ClimbPersonSeperatly()
 
             //MoveObByLeaving()
@@ -84,7 +84,7 @@ namespace Count_Master_SAY.Control
                 //Calculate() the transaction
                 int multiplyCount = int.Parse(numberPart[1]); //  1 this means get string after ' ' space , 0 means get string before ' ' space
                 int totalAdd = (multiplyCount - 1) * persons.Count;
-                for (int i = 1; i < totalAdd * slowingMultiplier; i++)
+                for (int i = 1; i <= totalAdd * slowingMultiplier; i++)
                 {
                     //Instantiate() persons slowingMultiplier times slowly 
                     if (i % slowingMultiplier == 0)
@@ -179,7 +179,6 @@ namespace Count_Master_SAY.Control
                 Die();
             }
         }
-
 
         void Die()
         {
