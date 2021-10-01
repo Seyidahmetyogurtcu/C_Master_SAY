@@ -13,9 +13,13 @@ namespace Count_Master_SAY.Trigger
     {
         float time = 0;
         readonly float delay = 0.3f;
+        bool isEnteredAnyTrigger;
         private void FixedUpdate()
         {
-            EventManager.singleton.PlayerMoveTriggerEnter();
+            if (!isEnteredAnyTrigger)
+            {
+                EventManager.singleton.PlayerMoveTriggerEnter();
+            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -39,7 +43,8 @@ namespace Count_Master_SAY.Trigger
 
                 //Call this event
                 EventManager.singleton.PlayerAtackTriggerEnter(id);
-                Debug.Log("EnemiesCountText");
+                isEnteredAnyTrigger = true;
+                Debug.Log("Entered EnemiesZone");
             }
             else if (other.tag == "FinishZone")
             {
@@ -63,6 +68,7 @@ namespace Count_Master_SAY.Trigger
             if (other.tag == "EnemyZone")
             {
                 //Call this event
+                isEnteredAnyTrigger = false;
             }
         }
     }
