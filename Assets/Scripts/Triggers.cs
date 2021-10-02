@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Count_Master_SAY;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Count_Master_SAY.Control;
 /// <summary>
@@ -13,7 +10,12 @@ namespace Count_Master_SAY.Trigger
     {
         float time = 0;
         readonly float delay = 0.3f;
-        bool isEnteredAnyTrigger;
+        public bool isEnteredAnyTrigger;
+        public static Triggers singleton;
+        private void Awake()
+        {
+            singleton = this;
+        }
         private void FixedUpdate()
         {
             if (!isEnteredAnyTrigger)
@@ -44,27 +46,16 @@ namespace Count_Master_SAY.Trigger
                 //Call this event
                 EventManager.singleton.PlayerAtackTriggerEnter(id);
                 isEnteredAnyTrigger = true;
-                Debug.Log("Entered EnemiesZone");
             }
             else if (other.tag == "FinishZone")
             {
                 //Call this event
                 EventManager.singleton.FinishTriggerEnter();
-                Debug.Log("Finished");
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.tag == "FinishZone")
-            {
-                //Call this event
-            }
-            if (other.tag == "Replicator")
-            {
-                //Call this event
-            }
-
             if (other.tag == "EnemyZone")
             {
                 //Call this event

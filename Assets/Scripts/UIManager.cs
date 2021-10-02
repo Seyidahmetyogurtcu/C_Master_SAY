@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Count_Master_SAY.Control;
@@ -27,16 +25,16 @@ namespace Count_Master_SAY.UI
             //Persons Count
             int numberOfPerson = PlayerManager.singleton.persons.Count;
             string personCount = numberOfPerson.ToString();
-            Text temp = FindObjectOfType<PlayerManager>().GetComponentInChildren<Text>();
-            temp.text = personCount;
+            Text text = FindObjectOfType<PlayerManager>().GetComponentInChildren<Text>();
+            text.text = personCount;
 
             //Enemies Count
             for (int i = 0; i < GameObject.FindGameObjectsWithTag("EnemyZone").Length; i++)
             {
                 int numberOfEnemy = EnemyManager.singleton.enemiesGroupArray[i].enemies.Count;
                 string enemyCount = numberOfEnemy.ToString();
-                Text[] temp2 = FindObjectOfType<EnemyManager>().GetComponentsInChildren<Text>();
-                temp2[i].text = enemyCount;
+                Text[] text2 = FindObjectOfType<EnemyManager>().GetComponentsInChildren<Text>();
+                text2[i].text = enemyCount;
             }
 
 
@@ -73,12 +71,6 @@ namespace Count_Master_SAY.UI
         public void WinLevel()
         {
             //Set you win panel
-            Time.timeScale = 0;
-            inGamePanel.SetActive(false);
-        }
-        public void WinGame()
-        {
-            //Set credits Panel
             Time.timeScale = 0;
             inGamePanel.SetActive(false);
             winPanel.SetActive(true);

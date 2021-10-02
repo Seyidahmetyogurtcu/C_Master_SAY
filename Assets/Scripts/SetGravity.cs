@@ -11,8 +11,8 @@ namespace Count_Master_SAY.Control
         }
         void Update()
         {
-            //additional gravity
-            rb.velocity += 4 * 9.81f * Time.deltaTime * (-Vector3.up);
+            //6 time additional gravity
+            rb.velocity += 6* 9.81f * Time.deltaTime * (-Vector3.up);
         }
     }
 }

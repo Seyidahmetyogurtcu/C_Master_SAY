@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 
 namespace Count_Master_SAY.Control
 {

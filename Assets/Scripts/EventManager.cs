@@ -35,5 +35,4 @@ namespace Count_Master_SAY
             onFinishTriggerEnter?.Invoke();
         }
     }
-
 }

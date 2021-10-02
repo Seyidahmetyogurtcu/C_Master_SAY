@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Count_Master_SAY.Control
 {
@@ -38,5 +36,4 @@ namespace Count_Master_SAY.Control
             }
         }
     }
-
 }
