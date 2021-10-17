@@ -1,6 +1,7 @@
 ﻿using Count_Master_SAY.UI;
 using Count_Master_SAY.Trigger;
 using System.Collections.Generic;
+using Count_Master_SAY.Pool;
 using UnityEngine;
 
 namespace Count_Master_SAY.Control
@@ -27,6 +28,7 @@ namespace Count_Master_SAY.Control
         int remaining;
         int lineOfAdditionalMaxArragement;
         int lineOfAdditionalArragement;
+        ObjectPooler objectPooler;
 
         private void Awake()
         {
@@ -39,6 +41,9 @@ namespace Count_Master_SAY.Control
             EventManager.singleton.onPlayerAtackTriggerEnter += OnPlayerAtack;
             EventManager.singleton.onReplicatorTriggerEnter += OnReplicator;
             EventManager.singleton.onFinishTriggerEnter += OnFinish;
+
+            //Initialize
+            objectPooler = ObjectPooler.singleton;
         }
         void OnDestroy()
         {
@@ -91,7 +96,10 @@ namespace Count_Master_SAY.Control
                     //Instantiate() persons slowingMultiplier times slowly 
                     if (i % slowingMultiplier == 0)
                     {
-                        persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5)), Quaternion.identity, this.transform));
+                        persons.Add(objectPooler.SpawnFromPool("Person", this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5))));
+                        #region old code 
+                        // persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5)), Quaternion.identity, this.transform));
+                        #endregion
                     }
                 }
                 return;
@@ -108,7 +116,10 @@ namespace Count_Master_SAY.Control
                     //Instantiate() persons slowingMultiplier times slowly 
                     if (i % slowingMultiplier == 0)
                     {
-                        persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5)), Quaternion.identity, this.transform));
+                       persons.Add(objectPooler.SpawnFromPool("Person", this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5))));
+                        #region old code
+                        // persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5)), Quaternion.identity, this.transform));
+                        #endregion
                     }
                 }
                 return;
@@ -245,26 +256,39 @@ namespace Count_Master_SAY.Control
         }
         private void KillNextEnemyAndPerson()
         {
+            doesPlayerTriggered = true;
             //GetEnemyList()
             enemiesCount = EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.Count;
-
+  
             if ((enemiesCount - 1) >= 0)
             {
-                doesPlayerTriggered = true;
-                //Decrease the enemy with our persons 1 by 1 (start with nearer positions)
-                Destroy(EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies[EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.Count - 1]);
+                /*for enemy*/
+                objectPooler.DisappearFromPool("Enemy", EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies[EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.Count - 1]);//Todo:add anemy to taguse pooler way
                 EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.RemoveAt(EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.Count - 1);
 
-                Destroy(persons[persons.Count - 1]);
+                /*for person*/
+                objectPooler.DisappearFromPool("Person", persons[persons.Count - 1]);
                 persons.RemoveAt(persons.Count - 1);
+
+                #region old code
+                //doesPlayerTriggered = true;
+                ////Decrease the enemy with our persons 1 by 1 (start with nearer positions)
+                //Destroy(EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies[EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.Count - 1]);
+                //EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.RemoveAt(EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.Count - 1);
+
+                //Destroy(persons[persons.Count - 1]);
+                //persons.RemoveAt(persons.Count - 1);
+                #endregion
             }
             else
             {
                 CancelInvoke("KillNextEnemyAndPerson");
+                doesPlayerTriggered = false;
                 Vector3 shiftedPosition = new Vector3(0, 0, 100);
                 EnemyManager.singleton.enemiesGroupArray[enemyGroupID].GetComponent<BoxCollider>().transform.position += shiftedPosition;
-                doesPlayerTriggered = false;
             }
+
+
         }
         private void CameraCahnge()
         {

@@ -2,6 +2,8 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Count_Master_SAY.Control;
+using Count_Master_SAY.Level;
+
 
 namespace Count_Master_SAY.UI
 {
@@ -11,33 +13,41 @@ namespace Count_Master_SAY.UI
         [SerializeField] private GameObject winPanel;
         [SerializeField] private GameObject inGamePanel;
         [SerializeField] private GameObject losePanel;
+        LevelGenerator levelGenerator;
+        public GameObject levvel;
         private void Awake()
         {
             singleton = this;
+            levelGenerator = LevelGenerator.singleton;
             Time.timeScale = 0;
+
         }
         private void Update()
         {
             WaitAndupdate();
         }
-        void  WaitAndupdate()
+        void WaitAndupdate()
         {
             //Persons Count
-            int numberOfPerson = PlayerManager.singleton.persons.Count;
-            string personCount = numberOfPerson.ToString();
-            Text text = FindObjectOfType<PlayerManager>().GetComponentInChildren<Text>();
-            text.text = personCount;
-
-            //Enemies Count
-            for (int i = 0; i < GameObject.FindGameObjectsWithTag("EnemyZone").Length; i++)
+            if (PlayerManager.singleton)
             {
-                int numberOfEnemy = EnemyManager.singleton.enemiesGroupArray[i].enemies.Count;
-                string enemyCount = numberOfEnemy.ToString();
-                Text[] text2 = FindObjectOfType<EnemyManager>().GetComponentsInChildren<Text>();
-                text2[i].text = enemyCount;
+                int numberOfPerson = PlayerManager.singleton.persons.Count;
+                string personCount = numberOfPerson.ToString();
+                Text text = FindObjectOfType<PlayerManager>().GetComponentInChildren<Text>();
+                text.text = personCount;
             }
 
-
+            //Enemies Count
+            if (EnemyManager.singleton)
+            {
+                for (int i = 0; i < GameObject.FindGameObjectsWithTag("EnemyZone").Length; i++)
+                {
+                    int numberOfEnemy = EnemyManager.singleton.enemiesGroupArray[i].enemies.Count;
+                    string enemyCount = numberOfEnemy.ToString();
+                    Text[] text2 = FindObjectOfType<EnemyManager>().GetComponentsInChildren<Text>();
+                    text2[i].text = enemyCount;
+                }
+            }
         }
 
         public void PlayButton()
@@ -47,11 +57,22 @@ namespace Count_Master_SAY.UI
         }
         public void NextLevelButton()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            Destroy(levelGenerator.levels[levelGenerator.currentLevel]);
+            levelGenerator.currentLevel++;
+            Instantiate(levelGenerator.levels[levelGenerator.currentLevel], levelGenerator.transform);
+
+            inGamePanel.SetActive(true);
+            #region old code
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            #endregion
         }
         public void RestartButton()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Destroy(levelGenerator.levels[levelGenerator.currentLevel]);
+            Instantiate(levelGenerator.levels[levelGenerator.currentLevel], levelGenerator.transform);
+            #region old code
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            #endregion
         }
         public void ExitButton()
         {
