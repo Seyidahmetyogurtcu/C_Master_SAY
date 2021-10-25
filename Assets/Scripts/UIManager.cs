@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Count_Master_SAY.Control;
 using Count_Master_SAY.Level;
+using Count_Master_SAY.Trigger;
 
 
 namespace Count_Master_SAY.UI
@@ -40,7 +41,7 @@ namespace Count_Master_SAY.UI
             //Enemies Count
             if (EnemyManager.singleton)
             {
-                for (int i = 0; i < GameObject.FindGameObjectsWithTag("EnemyZone").Length; i++)
+                for (int i = 0; i < GameObject.FindGameObjectsWithTag(Triggers.EnemyZone).Length; i++)
                 {
                     int numberOfEnemy = EnemyManager.singleton.enemiesGroupArray[i].enemies.Count;
                     string enemyCount = numberOfEnemy.ToString();

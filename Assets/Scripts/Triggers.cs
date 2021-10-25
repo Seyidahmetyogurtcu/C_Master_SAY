@@ -4,12 +4,19 @@ using Count_Master_SAY.Control;
 /// <summary>
 /// This is for event triggers,this class trigger and call events 
 /// </summary>
+
+
 namespace Count_Master_SAY.Trigger
 {
+    
     public class Triggers : MonoBehaviour
     {
+        const float Delay = 0.3f;
+        public const string FinishZone = "FinishZone";
+        public const string EnemyZone = "EnemyZone";
+        public const string Replicator = "Replicator";
+
         float time = 0;
-        readonly float delay = 0.3f;
         public bool isEnteredAnyTrigger;
         public static Triggers singleton;
         private void Awake()
@@ -27,10 +34,10 @@ namespace Count_Master_SAY.Trigger
         private void OnTriggerEnter(Collider other)
         {
 
-            if (other.tag == "Replicator" && (Time.timeSinceLevelLoad > time))
+            if (other.tag == Replicator && (Time.timeSinceLevelLoad > time))
             {
-                //Add delay to prevent colliders' clash
-                time = Time.timeSinceLevelLoad + delay;
+                //Add Delay to prevent colliders' clash
+                time = Time.timeSinceLevelLoad + Delay;
 
                 //Get its text
                 string ReplicatorText = other.GetComponentInChildren<Text>().text;
@@ -39,7 +46,7 @@ namespace Count_Master_SAY.Trigger
                 EventManager.singleton.ReplicatorTriggerEnter(ReplicatorText);
             }
 
-            else if (other.tag == "EnemyZone")
+            else if (other.tag == EnemyZone)
             {
                 int id = other.GetComponentInChildren<Enemies>().id;
 
@@ -47,7 +54,7 @@ namespace Count_Master_SAY.Trigger
                 EventManager.singleton.PlayerAtackTriggerEnter(id);
                 isEnteredAnyTrigger = true;
             }
-            else if (other.tag == "FinishZone")
+            else if (other.tag == FinishZone)
             {
                 //Call this event
                 EventManager.singleton.FinishTriggerEnter();
@@ -56,7 +63,7 @@ namespace Count_Master_SAY.Trigger
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.tag == "EnemyZone")
+            if (other.tag == EnemyZone)
             {
                 //Call this event
                 isEnteredAnyTrigger = false;

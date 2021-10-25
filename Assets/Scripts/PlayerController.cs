@@ -4,10 +4,11 @@ namespace Count_Master_SAY.Control
 {
     public class PlayerController : MonoBehaviour
     {
-        public Vector3 initialPosition;
+        const float NormalizeSpeedForPc = 0.003f;
+        const float NormalizeSpeedForMobile = 0.005f;
+
+        public  Vector3 initialPosition;
         private Vector3 finalPosition;
-        float normalizeSpeedForPc = 0.003f;
-        float normalizeSpeedForMobile = 0.005f;
         Vector3 clampedPos = new Vector3(1, 1, 1);
         private void Update()
         {
@@ -27,7 +28,7 @@ namespace Count_Master_SAY.Control
                 Vector3 temp2=Vector3.zero;
                 temp2.z = temp.x;// this is because screen UI use x(horizontal)-y(vertical) coordinate 
 
-                clampedPos += (temp2 * normalizeSpeedForMobile);
+                clampedPos += (temp2 * NormalizeSpeedForMobile);
                 clampedPos.z = Mathf.Clamp(clampedPos.z, -16.5f, +16.5f);
                 this.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, clampedPos.z);
             }
@@ -47,7 +48,7 @@ namespace Count_Master_SAY.Control
                 Vector3 temp2 = Vector3.zero;
                 temp2.z = temp.x; // this is because screen UI use x(horizontal)-y(vertical) coordinate 
 
-                clampedPos += (temp2 * normalizeSpeedForPc);
+                clampedPos += (temp2 * NormalizeSpeedForPc);
                 clampedPos.z = Mathf.Clamp(clampedPos.z, -16.5f, +16.5f);
                 this.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, clampedPos.z);
             }

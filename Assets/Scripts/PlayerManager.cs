@@ -8,6 +8,11 @@ namespace Count_Master_SAY.Control
 {
     public class PlayerManager : MonoBehaviour
     {
+        public const int FMagnitude = 3;
+        const float SlowingMultiplier = 10;
+        const int PersonSpeed = 25;
+        const int FloorHeigth = 5;
+
         public List<GameObject> persons = new List<GameObject>();
         [Space]
         public GameObject personPrefab;
@@ -16,11 +21,8 @@ namespace Count_Master_SAY.Control
         List<Vector3> distanceToPlayer = new List<Vector3>();
         List<int> positionInArray = new List<int>();
         int[] cLimbOrder = new int[40];
-        public int fMagnitude = 3;
-        readonly float slowingMultiplier = 10;
+        
         public static PlayerManager singleton;
-        int personSpeed = 25;
-        int floorHeigth = 5;
         public int enemyGroupID;
         public bool doesPlayerTriggered;
         public int enemiesCount;
@@ -91,10 +93,10 @@ namespace Count_Master_SAY.Control
                 string[] numberPart = text.Split('+');
                 //Calculate() the transaction
                 int addCount = int.Parse(numberPart[1]); //  1 this means get string after ' ' space , 0 means get string before ' ' space
-                for (int i = 1; i <= addCount * slowingMultiplier; i++)
+                for (int i = 1; i <= addCount * SlowingMultiplier; i++)
                 {
-                    //Instantiate() persons slowingMultiplier times slowly 
-                    if (i % slowingMultiplier == 0)
+                    //Instantiate() persons SlowingMultiplier times slowly 
+                    if (i % SlowingMultiplier == 0)
                     {
                         persons.Add(objectPooler.SpawnFromPool("Person", this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5))));
                         #region old code 
@@ -111,10 +113,10 @@ namespace Count_Master_SAY.Control
                 //Calculate() the transaction
                 int multiplyCount = int.Parse(numberPart[1]); //  1 this means get string after ' ' space , 0 means get string before ' ' space
                 int totalAdd = (multiplyCount - 1) * persons.Count;
-                for (int i = 1; i <= totalAdd * slowingMultiplier; i++)
+                for (int i = 1; i <= totalAdd * SlowingMultiplier; i++)
                 {
-                    //Instantiate() persons slowingMultiplier times slowly 
-                    if (i % slowingMultiplier == 0)
+                    //Instantiate() persons SlowingMultiplier times slowly 
+                    if (i % SlowingMultiplier == 0)
                     {
                        persons.Add(objectPooler.SpawnFromPool("Person", this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5))));
                         #region old code
@@ -134,7 +136,7 @@ namespace Count_Master_SAY.Control
         private void OnPlayerMove()
         {
             //Move all player characters horizontaly
-            transform.Translate(new Vector3(Time.fixedDeltaTime * personSpeed, 0, 0), Space.Self);
+            transform.Translate(new Vector3(Time.fixedDeltaTime * PersonSpeed, 0, 0), Space.Self);
         }
 
         private void CalculateSeperation()
@@ -312,7 +314,7 @@ namespace Count_Master_SAY.Control
                 distanceToCenter.Add(this.transform.position - persons[i].transform.position);//gets vector from person to center
                 float dotted = Vector3.Dot(distanceToCenter[i], Vector3.up);  //get vertical(Y-axsis) projection
                 Vector3 temp = distanceToCenter[i] - (dotted * Vector3.up);    //delete vertical(Y-axsis) projection to get X-Z vector
-                persons[i].GetComponent<Rigidbody>().AddForce(temp * fMagnitude*2, ForceMode.Force);
+                persons[i].GetComponent<Rigidbody>().AddForce(temp * FMagnitude*2, ForceMode.Force);
             }
             distanceToCenter.Clear();
         }
@@ -324,7 +326,7 @@ namespace Count_Master_SAY.Control
                 distanceToEnemy.Add(EnemyManager.singleton.enemiesGroupArray[enemyGroupID].transform.position - persons[i].transform.position);//gets vector from person to center
                 float dotted = Vector3.Dot(distanceToEnemy[i], Vector3.up);  //get vertical(Y-axsis) projection
                 Vector3 temp = distanceToEnemy[i] - (dotted * Vector3.up);    //delete vertical(Y-axsis) projection to get X-Z vector
-                persons[i].GetComponent<Rigidbody>().AddForce(temp * fMagnitude / 2, ForceMode.Force);
+                persons[i].GetComponent<Rigidbody>().AddForce(temp * FMagnitude / 2, ForceMode.Force);
             }
             distanceToEnemy.Clear();
 
@@ -335,7 +337,7 @@ namespace Count_Master_SAY.Control
                 distanceToPlayer.Add(this.transform.position - EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies[i].transform.position);//gets vector from person to center
                 float dotted = Vector3.Dot(distanceToPlayer[i], Vector3.up);  //get vertical(Y-axsis) projection
                 Vector3 temp = distanceToPlayer[i] - (dotted * Vector3.up);    //delete vertical(Y-axsis) projection to get X-Z vector
-                EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies[i].GetComponent<Rigidbody>().AddForce(temp * fMagnitude / 2, ForceMode.Force);
+                EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies[i].GetComponent<Rigidbody>().AddForce(temp * FMagnitude / 2, ForceMode.Force);
             }
             distanceToPlayer.Clear();
         }
@@ -343,7 +345,7 @@ namespace Count_Master_SAY.Control
         {
             foreach (GameObject person in persons)
             {
-                if (person.transform.position.y < floorHeigth)
+                if (person.transform.position.y < FloorHeigth)
                 {
                     positionInArray.Add(System.Array.IndexOf(persons.ToArray(), person));
                     Destroy(persons[System.Array.IndexOf(persons.ToArray(), person)]);
