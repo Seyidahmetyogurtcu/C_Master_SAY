@@ -3,12 +3,13 @@ using Count_Master_SAY.Trigger;
 using System.Collections.Generic;
 using Count_Master_SAY.Pool;
 using UnityEngine;
+using Count_Master_SAY.Control;
 
 namespace Count_Master_SAY.Control
 {
     public class PlayerManager : MonoBehaviour
     {
-        public const int FMagnitude = 3;
+        public const int FMagnitude = 6;
         const float SlowingMultiplier = 10;
         const int PersonSpeed = 25;
         const int FloorHeigth = 5;
@@ -19,18 +20,17 @@ namespace Count_Master_SAY.Control
         List<Vector3> distanceToCenter = new List<Vector3>();
         List<Vector3> distanceToEnemy = new List<Vector3>();
         List<Vector3> distanceToPlayer = new List<Vector3>();
-        List<int> positionInArray = new List<int>();
-        int[] cLimbOrder = new int[40];
-        
+        List<int> positionInArray = new List<int>();     
+
         public static PlayerManager singleton;
         public int enemyGroupID;
         public bool doesPlayerTriggered;
         public int enemiesCount;
-        int maxArragementLineLength;
-        int remaining;
-        int lineOfAdditionalMaxArragement;
-        int lineOfAdditionalArragement;
         ObjectPooler objectPooler;
+        int replicatorValue;
+        string sign;
+        float time = 0;
+
 
         private void Awake()
         {
@@ -42,7 +42,6 @@ namespace Count_Master_SAY.Control
             EventManager.singleton.onPlayerMoveTriggerEnter += OnPlayerMove;
             EventManager.singleton.onPlayerAtackTriggerEnter += OnPlayerAtack;
             EventManager.singleton.onReplicatorTriggerEnter += OnReplicator;
-            EventManager.singleton.onFinishTriggerEnter += OnFinish;
 
             //Initialize
             objectPooler = ObjectPooler.singleton;
@@ -53,7 +52,6 @@ namespace Count_Master_SAY.Control
             EventManager.singleton.onPlayerMoveTriggerEnter -= OnPlayerMove;
             EventManager.singleton.onPlayerAtackTriggerEnter -= OnPlayerAtack;
             EventManager.singleton.onReplicatorTriggerEnter -= OnReplicator;
-            EventManager.singleton.onFinishTriggerEnter -= OnFinish;
         }
         void Update()
         {
@@ -76,62 +74,89 @@ namespace Count_Master_SAY.Control
                 LoseDetection();
             }
         }
-        private void OnFinish()
-        {
-            CalculateSeperation();
-            ClimbPersonSeperatly();
-            MoveOnByLeaving();
-            CameraCahnge();
-        }
+
+
         private void OnReplicator(string text)
         {
-            //Look() the replicator then get its sign and number
-
-            //Addition
-            if (text.Contains("+"))
+            if (sign == "+")
             {
-                string[] numberPart = text.Split('+');
-                //Calculate() the transaction
-                int addCount = int.Parse(numberPart[1]); //  1 this means get string after ' ' space , 0 means get string before ' ' space
-                for (int i = 1; i <= addCount * SlowingMultiplier; i++)
+                Vibrator.Vibrate(80);   //Add vibration
+
+                for (int i = 1; i <= replicatorValue * SlowingMultiplier; i++)
                 {
                     //Instantiate() persons SlowingMultiplier times slowly 
                     if (i % SlowingMultiplier == 0)
                     {
                         persons.Add(objectPooler.SpawnFromPool("Person", this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5))));
-                        #region old code 
-                        // persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5)), Quaternion.identity, this.transform));
-                        #endregion
                     }
                 }
                 return;
             }
-            //Multiply
-            else if (text.Contains("x"))
+
+            else if (sign == "x")
             {
-                string[] numberPart = text.Split('x');
-                //Calculate() the transaction
-                int multiplyCount = int.Parse(numberPart[1]); //  1 this means get string after ' ' space , 0 means get string before ' ' space
-                int totalAdd = (multiplyCount - 1) * persons.Count;
+                Vibrator.Vibrate(90); //Add vibration
+
+                int totalAdd = (replicatorValue - 1) * persons.Count;
                 for (int i = 1; i <= totalAdd * SlowingMultiplier; i++)
                 {
                     //Instantiate() persons SlowingMultiplier times slowly 
                     if (i % SlowingMultiplier == 0)
                     {
-                       persons.Add(objectPooler.SpawnFromPool("Person", this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5))));
-                        #region old code
-                        // persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5)), Quaternion.identity, this.transform));
-                        #endregion
+                        persons.Add(objectPooler.SpawnFromPool("Person", this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5))));
                     }
                 }
                 return;
             }
+
+            #region old code
+            ////Look() the replicator then get its sign and number
+
+            ////Addition
+            //if (text.Contains("+"))
+            //{
+            //    string[] numberPart = text.Split('+');
+            //    //Calculate() the transaction
+            //    int addCount = int.Parse(numberPart[1]); //  1 this means get string after ' ' space , 0 means get string before ' ' space
+            //    for (int i = 1; i <= addCount * SlowingMultiplier; i++)
+            //    {
+            //        //Instantiate() persons SlowingMultiplier times slowly 
+            //        if (i % SlowingMultiplier == 0)
+            //        {
+
+            //            persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5)), Quaternion.identity, this.transform));
+
+            //        }
+            //    }
+            //    return;
+            //}
+            ////Multiply
+            //else if (text.Contains("x"))
+            //{
+            //    string[] numberPart = text.Split('x');
+            //    //Calculate() the transaction
+            //    int multiplyCount = int.Parse(numberPart[1]); //  1 this means get string after ' ' space , 0 means get string before ' ' space
+            //    int totalAdd = (multiplyCount - 1) * persons.Count;
+            //    for (int i = 1; i <= totalAdd * SlowingMultiplier; i++)
+            //    {
+            //        //Instantiate() persons SlowingMultiplier times slowly 
+            //        if (i % SlowingMultiplier == 0)
+            //        {
+
+            //            persons.Add(Instantiate(personPrefab, this.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), 2, UnityEngine.Random.Range(-5, 5)), Quaternion.identity, this.transform));
+
+            //        }
+            //    }
+            //    return;
+            //}
+            #endregion
+
         }
         private void OnPlayerAtack(int id)
         {
             AttractPersonsAndEnemies();
             enemyGroupID = id;
-            InvokeRepeating("KillNextEnemyAndPerson", 0, 0.05f); 
+            InvokeRepeating("KillNextEnemyAndPerson", 0, 0.05f);
         }
         private void OnPlayerMove()
         {
@@ -139,129 +164,12 @@ namespace Count_Master_SAY.Control
             transform.Translate(new Vector3(Time.fixedDeltaTime * PersonSpeed, 0, 0), Space.Self);
         }
 
-        private void CalculateSeperation()
-        {
-            //triangular arrengement formula
-            cLimbOrder[0] = 0;
-            for (int i = 0; i < 39; i++)
-            {
-                cLimbOrder[i + 1] = cLimbOrder[i] + 2 * (i + 1);
-            }
-            //find range of person count
-            int midPoint = (cLimbOrder.Length / 2) - 1;//for 40=>19
-            int leftLimit = 0;
-            int rightLimit = cLimbOrder.Length;
-
-
-            //bilinear search algorithm
-            for (int i = 0; i < persons.Count; i++)
-            {
-                if (persons.Count < cLimbOrder[midPoint])
-                {
-                    rightLimit = midPoint;
-                    midPoint = (midPoint + leftLimit) / 2;
-                    if (rightLimit - leftLimit == 1)
-                    {
-                        //find it
-                        maxArragementLineLength = leftLimit;
-                        remaining = persons.Count - cLimbOrder[leftLimit];
-                        return;
-                    }
-                }
-                else if (persons.Count > cLimbOrder[midPoint])
-                {
-
-                    leftLimit = midPoint;
-                    midPoint = (midPoint + rightLimit) / 2;
-                    if (rightLimit - leftLimit == 1)
-                    {
-                        //find it
-                        maxArragementLineLength = leftLimit;
-                        remaining = persons.Count - cLimbOrder[leftLimit];
-                        return;
-                    }
-                }
-                else if (persons.Count == cLimbOrder[midPoint])
-                {
-                    //founded!
-                    maxArragementLineLength = midPoint;
-                    remaining = 0;
-                    return;
-                }
-            }
-
-        }
-        private void ClimbPersonSeperatly()
-        {
-            if (remaining != 0)
-            {
-                int lineOfAdditionalMaxArragement = remaining / maxArragementLineLength;
-                if (lineOfAdditionalMaxArragement != 0)
-                {
-                    lineOfAdditionalArragement = remaining - lineOfAdditionalMaxArragement * maxArragementLineLength;
-                }
-                else
-                {
-                    lineOfAdditionalArragement = 0;
-                }
-            }
-            else
-            {
-                lineOfAdditionalMaxArragement = 0;
-                lineOfAdditionalArragement = 0;
-            }
-        }
-        private void MoveOnByLeaving()
-        {
-            int maxLine = maxArragementLineLength * 2 + lineOfAdditionalArragement + lineOfAdditionalMaxArragement;
-            int numberofObjectPerLine = 1;
-            int indexCounter = 0;
-            int dubleIteration = 0;
-            bool isAdded = false;
-            for (int iter = 0; iter < maxLine; iter++)
-            {
-                for (int i = 0; i < numberofObjectPerLine; i++)
-                {
-                    if (indexCounter >= persons.Count)
-                    {
-                        return;
-                    }
-                    persons[indexCounter].transform.position = new Vector3(this.transform.position.x, 7, (iter - 2 * i));
-                    persons[indexCounter].GetComponent<Rigidbody>().isKinematic = true;
-                    indexCounter++;
-                }
-                for (int k = 0; k < indexCounter; k++)
-                {
-                    persons[k].transform.position += new Vector3(0, 4, 0);
-
-                }
-                if (lineOfAdditionalArragement == iter && !isAdded)
-                {
-                    numberofObjectPerLine--;
-                    iter--;
-                    dubleIteration--;
-                    isAdded = true;
-                }
-                if (dubleIteration % 2 == 0 && indexCounter < persons.Count)
-                {
-                    numberofObjectPerLine--;
-                    iter--;
-                }
-                numberofObjectPerLine++;
-                dubleIteration++;
-            }
-            for (int j = 0; j < lineOfAdditionalMaxArragement; j++)
-            {
-                persons[indexCounter].transform.position = new Vector3(this.transform.position.x, 0, maxLine - 2 * j);
-                indexCounter++;
-            }
-        }
         private void KillNextEnemyAndPerson()
         {
             doesPlayerTriggered = true;
             //GetEnemyList()
             enemiesCount = EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.Count;
-  
+
             if ((enemiesCount - 1) >= 0)
             {
                 /*for enemy*/
@@ -292,18 +200,11 @@ namespace Count_Master_SAY.Control
 
 
         }
-        private void CameraCahnge()
+        private void StopMoving()
         {
-            Camera.main.transform.position += new Vector3(-15,120,-30);
-            Camera.main.transform.rotation = new Quaternion(Camera.main.transform.rotation.x, Camera.main.transform.rotation.y - 27, Camera.main.transform.rotation.z, Camera.main.transform.rotation.w);
-            Camera.main.transform.LookAt(persons[0].transform,Vector3.up); 
-        }
-
-        private void StopMoving() 
-        {
-            if (this.transform.childCount< 3)
+            if (this.transform.childCount < 3)
             {
-                Triggers.singleton.isEnteredAnyTrigger=true;
+                Triggers.singleton.isEnteredAnyTrigger = true;
                 Invoke("WinLevel", 3);
             }
         }
@@ -314,7 +215,7 @@ namespace Count_Master_SAY.Control
                 distanceToCenter.Add(this.transform.position - persons[i].transform.position);//gets vector from person to center
                 float dotted = Vector3.Dot(distanceToCenter[i], Vector3.up);  //get vertical(Y-axsis) projection
                 Vector3 temp = distanceToCenter[i] - (dotted * Vector3.up);    //delete vertical(Y-axsis) projection to get X-Z vector
-                persons[i].GetComponent<Rigidbody>().AddForce(temp * FMagnitude*2, ForceMode.Force);
+                persons[i].GetComponent<Rigidbody>().AddForce(temp * FMagnitude * 2, ForceMode.Force);
             }
             distanceToCenter.Clear();
         }
@@ -391,5 +292,17 @@ namespace Count_Master_SAY.Control
                 }
             } while (itemMoved);
         }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag(Triggers.Replicator) && (Time.timeSinceLevelLoad > time))
+            {
+                time = Time.timeSinceLevelLoad + Triggers.Delay;
+
+                sign  = other.gameObject.GetComponent<Replicator>().Sign;
+                replicatorValue = other.gameObject.GetComponent<Replicator>().ReplicatorValue;
+            }
+            EventManager.singleton.ReplicatorTriggerEnter(sign); //call add event
+        }
+
     }
 }

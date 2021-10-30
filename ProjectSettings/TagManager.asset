@@ -5,9 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - FinishZone
-  - Replicator
   - EnemyZone
   - stair
+  - Replicator
   layers:
   - Default
   - TransparentFX

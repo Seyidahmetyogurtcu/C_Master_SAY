@@ -11,7 +11,7 @@ namespace Count_Master_SAY.Trigger
     
     public class Triggers : MonoBehaviour
     {
-        const float Delay = 0.3f;
+        public const float Delay = 0.3f;
         public const string FinishZone = "FinishZone";
         public const string EnemyZone = "EnemyZone";
         public const string Replicator = "Replicator";
@@ -34,19 +34,19 @@ namespace Count_Master_SAY.Trigger
         private void OnTriggerEnter(Collider other)
         {
 
-            if (other.tag == Replicator && (Time.timeSinceLevelLoad > time))
-            {
-                //Add Delay to prevent colliders' clash
-                time = Time.timeSinceLevelLoad + Delay;
+            //if (other.tag == Replicator && (Time.timeSinceLevelLoad > time))
+            //{
+            //    //Add Delay to prevent colliders' clash
+            //    time = Time.timeSinceLevelLoad + Delay;
 
-                //Get its text
-                string ReplicatorText = other.GetComponentInChildren<Text>().text;
+            //    //Get its text
+            //    string ReplicatorText = other.GetComponentInChildren<Text>().text;
 
-                //Call this event
-                EventManager.singleton.ReplicatorTriggerEnter(ReplicatorText);
-            }
+            //    //Call this event
+            //    EventManager.singleton.ReplicatorTriggerEnter(ReplicatorText);
+            //}
 
-            else if (other.tag == EnemyZone)
+            if (other.tag == EnemyZone)
             {
                 int id = other.GetComponentInChildren<Enemies>().id;
 
