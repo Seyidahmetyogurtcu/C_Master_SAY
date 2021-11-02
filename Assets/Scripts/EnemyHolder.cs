@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Count_Master_SAY.Control
 {
-    public class Enemies:MonoBehaviour
+    public class EnemyHolder:MonoBehaviour
     {
         public List<GameObject> enemies = new List<GameObject>();
 

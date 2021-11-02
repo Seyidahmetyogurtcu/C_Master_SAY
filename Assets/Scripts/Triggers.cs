@@ -48,7 +48,7 @@ namespace Count_Master_SAY.Trigger
 
             if (other.tag == EnemyZone)
             {
-                int id = other.GetComponentInChildren<Enemies>().id;
+                int id = other.GetComponentInChildren<EnemyHolder>().id;
 
                 //Call this event
                 EventManager.singleton.PlayerAtackTriggerEnter(id);

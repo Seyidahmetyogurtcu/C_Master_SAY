@@ -168,13 +168,13 @@ namespace Count_Master_SAY.Control
         {
             doesPlayerTriggered = true;
             //GetEnemyList()
-            enemiesCount = EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.Count;
+            enemiesCount = EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies.Count;
 
             if ((enemiesCount - 1) >= 0)
             {
                 /*for enemy*/
-                objectPooler.DisappearFromPool("Enemy", EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies[EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.Count - 1]);//Todo:add anemy to taguse pooler way
-                EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.RemoveAt(EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.Count - 1);
+                objectPooler.DisappearFromPool("Enemy", EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies[EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies.Count - 1]);//Todo:add anemy to taguse pooler way
+                EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies.RemoveAt(EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies.Count - 1);
 
                 /*for person*/
                 objectPooler.DisappearFromPool("Person", persons[persons.Count - 1]);
@@ -183,8 +183,8 @@ namespace Count_Master_SAY.Control
                 #region old code
                 //doesPlayerTriggered = true;
                 ////Decrease the enemy with our persons 1 by 1 (start with nearer positions)
-                //Destroy(EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies[EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.Count - 1]);
-                //EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.RemoveAt(EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.Count - 1);
+                //Destroy(EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies[EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies.Count - 1]);
+                //EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies.RemoveAt(EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies.Count - 1);
 
                 //Destroy(persons[persons.Count - 1]);
                 //persons.RemoveAt(persons.Count - 1);
@@ -195,7 +195,7 @@ namespace Count_Master_SAY.Control
                 CancelInvoke("KillNextEnemyAndPerson");
                 doesPlayerTriggered = false;
                 Vector3 shiftedPosition = new Vector3(0, 0, 100);
-                EnemyManager.singleton.enemiesGroupArray[enemyGroupID].GetComponent<BoxCollider>().transform.position += shiftedPosition;
+                EnemyManager.singleton.enemyHolderArray[enemyGroupID].GetComponent<BoxCollider>().transform.position += shiftedPosition;
             }
 
 
@@ -224,7 +224,7 @@ namespace Count_Master_SAY.Control
             //persons walk to enemy
             for (int i = 0; i < persons.Count; i++)
             {
-                distanceToEnemy.Add(EnemyManager.singleton.enemiesGroupArray[enemyGroupID].transform.position - persons[i].transform.position);//gets vector from person to center
+                distanceToEnemy.Add(EnemyManager.singleton.enemyHolderArray[enemyGroupID].transform.position - persons[i].transform.position);//gets vector from person to center
                 float dotted = Vector3.Dot(distanceToEnemy[i], Vector3.up);  //get vertical(Y-axsis) projection
                 Vector3 temp = distanceToEnemy[i] - (dotted * Vector3.up);    //delete vertical(Y-axsis) projection to get X-Z vector
                 persons[i].GetComponent<Rigidbody>().AddForce(temp * FMagnitude / 2, ForceMode.Force);
@@ -233,12 +233,12 @@ namespace Count_Master_SAY.Control
 
 
             //Enemies walk to persons
-            for (int i = 0; i < EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies.Count; i++)
+            for (int i = 0; i < EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies.Count; i++)
             {
-                distanceToPlayer.Add(this.transform.position - EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies[i].transform.position);//gets vector from person to center
+                distanceToPlayer.Add(this.transform.position - EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies[i].transform.position);//gets vector from person to center
                 float dotted = Vector3.Dot(distanceToPlayer[i], Vector3.up);  //get vertical(Y-axsis) projection
                 Vector3 temp = distanceToPlayer[i] - (dotted * Vector3.up);    //delete vertical(Y-axsis) projection to get X-Z vector
-                EnemyManager.singleton.enemiesGroupArray[enemyGroupID].enemies[i].GetComponent<Rigidbody>().AddForce(temp * FMagnitude / 2, ForceMode.Force);
+                EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies[i].GetComponent<Rigidbody>().AddForce(temp * FMagnitude / 2, ForceMode.Force);
             }
             distanceToPlayer.Clear();
         }

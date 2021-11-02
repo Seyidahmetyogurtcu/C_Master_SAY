@@ -43,7 +43,7 @@ namespace Count_Master_SAY.UI
             {
                 for (int i = 0; i < GameObject.FindGameObjectsWithTag(Triggers.EnemyZone).Length; i++)
                 {
-                    int numberOfEnemy = EnemyManager.singleton.enemiesGroupArray[i].enemies.Count;
+                    int numberOfEnemy = EnemyManager.singleton.enemyHolderArray[i].enemies.Count;
                     string enemyCount = numberOfEnemy.ToString();
                     Text[] text2 = FindObjectOfType<EnemyManager>().GetComponentsInChildren<Text>();
                     text2[i].text = enemyCount;

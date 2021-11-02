@@ -6,8 +6,8 @@ namespace Count_Master_SAY.Control
 {
     public class EnemyManager : MonoBehaviour
     {
-        List<Enemies> enemiesGroupList = new List<Enemies>();
-        public Enemies[] enemiesGroupArray;
+        List<EnemyHolder> enemyHolderList = new List<EnemyHolder>();
+        public EnemyHolder[] enemyHolderArray;
         public static EnemyManager singleton;
         private void Awake()
         {
@@ -15,13 +15,12 @@ namespace Count_Master_SAY.Control
         }
        private void Start()
         {
-            enemiesGroupArray = enemiesGroupList.ToArray();
-            enemiesGroupArray = this.GetComponentsInChildren<Enemies>();
-            int i = 0;
-            foreach (var enemiesGroup in enemiesGroupArray)
+            enemyHolderArray = enemyHolderList.ToArray();
+            enemyHolderArray = this.GetComponentsInChildren<EnemyHolder>();
+            
+            for (int i = 0; i < enemyHolderArray.Length; i++)
             {
-                enemiesGroup.id = i;
-                i++;
+                enemyHolderArray[i].id=i;
             }
         }
 
