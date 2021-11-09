@@ -2,12 +2,12 @@
 
 namespace Count_Master_SAY.Control
 {
-    public class PlayerController : MonoBehaviour
+    public class InputManager : MonoBehaviour
     {
         const float NormalizeSpeedForPc = 0.003f;
         const float NormalizeSpeedForMobile = 0.005f;
 
-        public  Vector3 initialPosition;
+        public Vector3 initialPosition;
         private Vector3 finalPosition;
         Vector3 clampedPos = new Vector3(1, 1, 1);
         private void Update()

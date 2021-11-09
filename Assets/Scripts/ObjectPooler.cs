@@ -9,7 +9,7 @@ namespace Count_Master_SAY.Pool
     public class ObjectPooler : MonoBehaviour
     {
         PlayerManager playerManager;
-
+        GameManager gameManager;
         public static ObjectPooler singleton;
         private void Awake()
         {
@@ -30,6 +30,7 @@ namespace Count_Master_SAY.Pool
         private void Start()
         {
             playerManager = PlayerManager.singleton;
+            gameManager = GameManager.singleton;
 
             poolDictionary = new Dictionary<string, Queue<GameObject>>();
 
@@ -48,6 +49,16 @@ namespace Count_Master_SAY.Pool
                         obj = Instantiate(pool.prefab, gates.transform);
                         obj.AddComponent<Replicator>(); //add sign and number properties for each Replicator            
                     }
+                    else if (pool.tag==GameManager.EnemyHolder)
+                    {
+                        obj = Instantiate(pool.prefab, gameManager.Enemies.transform);
+                        obj.AddComponent<EnemyHolder>();
+                    }
+                    else if (pool.tag ==GameManager.Enemy)
+                    {
+                        obj = Instantiate(pool.prefab, gameManager.Enemies.transform);
+                    }
+
                     else
                     {
                         obj = Instantiate(pool.prefab, playerManager.transform);
@@ -63,6 +74,12 @@ namespace Count_Master_SAY.Pool
 
             }
         }
+        /// <summary>
+        /// fetch object from pool again.
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <param name="position"></param>
+        /// <returns></returns>
         public GameObject SpawnFromPool(string tag, Vector3 position)
         {
             if (!poolDictionary.ContainsKey(tag))
@@ -87,7 +104,11 @@ namespace Count_Master_SAY.Pool
             return objectToSpawn;
         }
 
-
+        /// <summary>
+        /// it means add object to pool again.
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <param name="objectToDisappear"></param>
         public void DisappearFromPool(string tag, GameObject objectToDisappear)
         {
             if (!poolDictionary.ContainsKey(tag))

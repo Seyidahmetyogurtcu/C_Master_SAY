@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d539a989b41025949909d20711a172c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Enemies: {fileID: 0}
 --- !u!108 &705507994
 Light:
   m_ObjectHideFlags: 0
@@ -284,6 +285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
+  - {fileID: 3706268995452335759, guid: 0a91f9a51804a014cb13d47aaf09cd62, type: 3}
   - {fileID: 3706268995452335759, guid: 69a6d312124c8234486ae6fdf6852494, type: 3}
   - {fileID: 1188819112226843923, guid: 8ff0f6645d063324ab25da4b96c4a31f, type: 3}
   - {fileID: 5251207656841679976, guid: dcaa9e4a574eaed4a9f76c6a82c2c6c9, type: 3}
@@ -296,7 +298,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1398929014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 637.6593, y: 16.428188, z: -10.472589}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -403,15 +405,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pools:
-  - tag: Person
-    prefab: {fileID: 6298511003389628308, guid: e7be76469f708e041a36ea1d46167525, type: 3}
-    size: 500
-  - tag: Enemy
-    prefab: {fileID: 6298511003389628308, guid: 409e7f17270e58045b2cdf676b0f8961, type: 3}
-    size: 300
   - tag: Replicator
     prefab: {fileID: 3387463518552580871, guid: a3ad96fac8273c24d92f37b949301aba, type: 3}
     size: 50
+  - tag: Person
+    prefab: {fileID: 6298511003389628308, guid: e7be76469f708e041a36ea1d46167525, type: 3}
+    size: 500
+  - tag: EnemyHolder
+    prefab: {fileID: 6543175903879833875, guid: 020199268c6c347419744dd23084777a, type: 3}
+    size: 15
+  - tag: Enemy
+    prefab: {fileID: 6298511003389628308, guid: 409e7f17270e58045b2cdf676b0f8961, type: 3}
+    size: 1500
   - tag: Mountains
     prefab: {fileID: 6461556506666165754, guid: 53a7e14665879c04390b3760c652f45d, type: 3}
     size: 1
@@ -429,7 +434,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2134662721}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1182.19, y: 11.12365, z: -12.193749}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
