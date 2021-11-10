@@ -13,6 +13,7 @@ namespace Count_Master_SAY.Core
         public const string Enemy = "Enemy";
         public const string EnemyHolder = "EnemyHolder";
         public const string Floor = "Floor";
+        public const string Bridge = "Bridge";
 
         ObjectPooler objectPooler;
         public static GameManager singleton;

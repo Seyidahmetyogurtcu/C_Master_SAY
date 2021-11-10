@@ -63,7 +63,11 @@ namespace Count_Master_SAY.Pool
                         GameObject floors = GameObject.Find("Floors");
                         obj = Instantiate(pool.prefab, floors.transform);
                     }
-
+                    else if (pool.tag ==GameManager.Bridge)
+                    {
+                        GameObject bridges = GameObject.Find("Bridges");
+                        obj = Instantiate(pool.prefab, bridges.transform);                       
+                    }
                     else
                     {
                         obj = Instantiate(pool.prefab, playerManager.transform);

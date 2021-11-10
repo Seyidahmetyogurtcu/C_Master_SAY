@@ -9,6 +9,7 @@ TagManager:
   - stair
   - Replicator
   - Floor
+  - Bridge
   layers:
   - Default
   - TransparentFX
