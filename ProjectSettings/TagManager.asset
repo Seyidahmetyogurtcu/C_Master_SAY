@@ -8,6 +8,7 @@ TagManager:
   - EnemyZone
   - stair
   - Replicator
+  - Floor
   layers:
   - Default
   - TransparentFX

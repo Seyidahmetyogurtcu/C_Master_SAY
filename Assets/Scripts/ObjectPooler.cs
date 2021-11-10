@@ -58,6 +58,11 @@ namespace Count_Master_SAY.Pool
                     {
                         obj = Instantiate(pool.prefab, gameManager.Enemies.transform);
                     }
+                    else if (pool.tag == GameManager.Floor)
+                    {
+                        GameObject floors = GameObject.Find("Floors");
+                        obj = Instantiate(pool.prefab, floors.transform);
+                    }
 
                     else
                     {

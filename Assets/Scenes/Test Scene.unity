@@ -286,9 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - {fileID: 3706268995452335759, guid: 0a91f9a51804a014cb13d47aaf09cd62, type: 3}
-  - {fileID: 3706268995452335759, guid: 69a6d312124c8234486ae6fdf6852494, type: 3}
-  - {fileID: 1188819112226843923, guid: 8ff0f6645d063324ab25da4b96c4a31f, type: 3}
-  - {fileID: 5251207656841679976, guid: dcaa9e4a574eaed4a9f76c6a82c2c6c9, type: 3}
+  - {fileID: 3706268995452335759, guid: 0096d94d7b05bda4abc283e08f5b79fc, type: 3}
   currentLevel: 0
 --- !u!4 &1398929016
 Transform:

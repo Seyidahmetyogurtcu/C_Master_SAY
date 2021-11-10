@@ -19,9 +19,12 @@ namespace Count_Master_SAY.UI
         private void Awake()
         {
             singleton = this;
-            levelGenerator = LevelGenerator.singleton;
             Time.timeScale = 0;
 
+        }
+        private void Start()
+        {
+            levelGenerator = LevelGenerator.singleton;
         }
         private void Update()
         {
@@ -69,10 +72,12 @@ namespace Count_Master_SAY.UI
         }
         public void RestartButton()
         {
-            Destroy(levelGenerator.levels[levelGenerator.currentLevel]);
-            Instantiate(levelGenerator.levels[levelGenerator.currentLevel], levelGenerator.transform);
+            //DestroyImmediate(levelGenerator.levels[levelGenerator.currentLevel],true);
+            //levelGenerator.levels.RemoveAt(levelGenerator.currentLevel);
+            //GameObject Map=Instantiate(levelGenerator.levels[levelGenerator.currentLevel], levelGenerator.transform);
+            //levelGenerator.levels.Insert(levelGenerator.currentLevel, Map);
             #region old code
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             #endregion
         }
         public void ExitButton()
