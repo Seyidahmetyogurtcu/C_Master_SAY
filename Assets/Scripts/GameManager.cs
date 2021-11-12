@@ -4,6 +4,7 @@ using UnityEngine;
 using Count_Master_SAY.Pool;
 using Count_Master_SAY.Trigger;
 using Count_Master_SAY.Control;
+using Count_Master_SAY.Level;
 
 namespace Count_Master_SAY.Core
 {
@@ -33,9 +34,19 @@ namespace Count_Master_SAY.Core
             Enemies = new GameObject("Enemies2");
             Enemies.AddComponent<EnemyManager>();
             Enemies.transform.parent = GameObject.Find("Map(Clone)").transform;
+
+            InstantiateGame();
         }
 
+        void InstantiateGame()
+        {
+            //Level Generator
+            float nextFloorTime = 30 / PlayerManager.PersonSpeed;
+            LevelGenerator.singleton.Invoke("LevelInst", 0.01f);
+            LevelGenerator.singleton.InvokeRepeating("CreateNextObject", 0.01f, nextFloorTime);
 
+            //
+        }
         public void ReplicatorSpawner()
         {
             for (int i = 0; i < 30; i++)

@@ -11,7 +11,7 @@ namespace Count_Master_SAY.Control
     {
         public const int FMagnitude = 6;
         const float SlowingMultiplier = 10;
-        const int PersonSpeed = 25;
+        public const int PersonSpeed = 30;
         const int FloorHeigth = 5;
 
         public List<GameObject> persons = new List<GameObject>();

@@ -288,6 +288,7 @@ MonoBehaviour:
   - {fileID: 3706268995452335759, guid: 0a91f9a51804a014cb13d47aaf09cd62, type: 3}
   - {fileID: 3706268995452335759, guid: 0096d94d7b05bda4abc283e08f5b79fc, type: 3}
   currentLevel: 0
+  finishPrefab: {fileID: 7548703896118098733, guid: b413e4df10adb1942b5977c60ee953d0, type: 3}
 --- !u!4 &1398929016
 Transform:
   m_ObjectHideFlags: 0
@@ -408,7 +409,7 @@ MonoBehaviour:
     size: 50
   - tag: Person
     prefab: {fileID: 6298511003389628308, guid: e7be76469f708e041a36ea1d46167525, type: 3}
-    size: 500
+    size: 750
   - tag: EnemyHolder
     prefab: {fileID: 6543175903879833875, guid: 020199268c6c347419744dd23084777a, type: 3}
     size: 15
@@ -420,8 +421,8 @@ MonoBehaviour:
     size: 1
   - tag: Floor
     prefab: {fileID: 9050160421645524806, guid: 169d3b8cd44c8024c950fe9fec004c72, type: 3}
-    size: 25
-  - tag: Bridges
+    size: 300
+  - tag: Bridge
     prefab: {fileID: 8913464081771646071, guid: ae46803576eb54646bc5b815d040f245, type: 3}
     size: 50
 --- !u!4 &2134662723
