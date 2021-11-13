@@ -44,7 +44,7 @@ namespace Count_Master_SAY.Pool
                 {
                     GameObject obj;
 
-                    if (pool.tag == Triggers.Replicator)
+                    if (pool.tag == GameManager.Replicator)
                     {
                         obj = Instantiate(pool.prefab, gates.transform);
                         obj.AddComponent<Replicator>(); //add sign and number properties for each Replicator            

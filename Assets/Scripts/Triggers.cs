@@ -14,7 +14,6 @@ namespace Count_Master_SAY.Trigger
         public const float Delay = 0.3f;
         public const string FinishZone = "FinishZone";
         public const string EnemyZone = "EnemyZone";
-        public const string Replicator = "Replicator";
 
         float time = 0;
         public bool isEnteredAnyTrigger;

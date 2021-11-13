@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Count_Master_SAY.Pool;
 using UnityEngine;
 using Count_Master_SAY.Control;
+using Count_Master_SAY.Core;
 
 namespace Count_Master_SAY.Control
 {
@@ -294,7 +295,7 @@ namespace Count_Master_SAY.Control
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag(Triggers.Replicator) && (Time.timeSinceLevelLoad > time))
+            if (other.CompareTag(GameManager.Replicator) && (Time.timeSinceLevelLoad > time))
             {
                 time = Time.timeSinceLevelLoad + Triggers.Delay;
 

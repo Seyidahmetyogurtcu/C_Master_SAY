@@ -15,8 +15,8 @@ namespace Count_Master_SAY.Level
         // const float floorRate = 0.9f;
         // const float bridgeRate = 0.1f;
         int totalNumberOfLevelBlock;
-        string nextFloor= "Floor";
-        string nextBlock="Replicator";
+        string nextFloor = "Floor";
+        string nextBlock = "Empty";
         int nextBlockPos;
         public GameObject finishPrefab;
         int blockLength = 30;
@@ -30,7 +30,7 @@ namespace Count_Master_SAY.Level
         private void Start()
         {
             objectPooler = ObjectPooler.singleton;
-            totalNumberOfLevelBlock = UnityEngine.Random.Range(10,51);
+            totalNumberOfLevelBlock = UnityEngine.Random.Range(10, 51);
             nextBlockPos = 6;
         }
 
@@ -52,7 +52,7 @@ namespace Count_Master_SAY.Level
             nextBlock = nextObject;
         }
         void CreateNextObject()
-        {            
+        {
             int rand = UnityEngine.Random.Range(1, 11);//Generetes numbers from 1 to 10
 
             if (rand <= 9)
@@ -64,21 +64,33 @@ namespace Count_Master_SAY.Level
                 NextFloor(GameManager.Bridge);
             }
 
-            if (nextBlock == GameManager.Floor)
+            if (nextFloor == GameManager.Floor)
             {
                 int rand2 = UnityEngine.Random.Range(1, 11);//Generetes numbers from 1 to 10
 
-                if (rand2 <= 6)
+                if (rand2 <= 3) //%30
                 {
-                    NextObjcet("Replicator");
+                    NextObjcet(GameManager.Replicator);
                 }
-                else
+                else if (3 < rand2 && rand2 <= 5) //%20
                 {
                     NextObjcet(GameManager.Enemy);
                 }
+                else
+                {
+                    NextObjcet("Empty");
+                }
             }
-       
-            objectPooler.SpawnFromPool(nextFloor, new Vector3(nextBlockPos*blockLength,0,0));
+
+            objectPooler.SpawnFromPool(nextFloor, new Vector3(nextBlockPos * blockLength, 0, 0));
+            if (nextBlock == GameManager.Enemy)
+            {
+                EnemyManager.singleton.EnemyInst(nextBlockPos, blockLength);
+            }
+            else if (nextBlock == GameManager.Replicator)
+            {
+                objectPooler.SpawnFromPool(nextBlock, new Vector3(nextBlockPos * blockLength, 0, 0));
+            }
             nextBlockPos++;
 
             //Look person count
@@ -116,19 +128,19 @@ namespace Count_Master_SAY.Level
             }
             //Just Create enemy 
 
-            if (nextBlockPos==(totalNumberOfLevelBlock-8))
+            if (nextBlockPos == (totalNumberOfLevelBlock - 8))
             {
                 CancelInvoke("CreateNextObject");
 
                 //instantiate finish line;
-                for (int i = nextBlockPos; i <= nextBlockPos+8; i++)
+                for (int i = nextBlockPos; i <= nextBlockPos + 8; i++)
                 {
                     objectPooler.SpawnFromPool(GameManager.Floor, new Vector3(i * blockLength, 0, 0));
                 }
                 //finishline
                 GameObject platform = GameObject.Find("Platform");
-                Vector3 finishPos = new Vector3((nextBlockPos) * blockLength,0,0);
-                Instantiate(finishPrefab, finishPos, Quaternion.identity, platform.transform); 
+                Vector3 finishPos = new Vector3((nextBlockPos) * blockLength, 0, 0);
+                Instantiate(finishPrefab, finishPos, Quaternion.identity, platform.transform);
             }
         }
         void GenerateFloor()

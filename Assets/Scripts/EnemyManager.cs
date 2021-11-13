@@ -14,6 +14,7 @@ namespace Count_Master_SAY.Control
         public static EnemyManager singleton;
         GameManager gameManager;
         ObjectPooler objectPooler;
+        int id = 0;
         private void Awake()
         {
             singleton = this;
@@ -22,30 +23,29 @@ namespace Count_Master_SAY.Control
         {
             gameManager = GameManager.singleton;
             objectPooler = ObjectPooler.singleton;
-            Invoke("Inst", 0.02f);
         }
 
-        public void Inst()
+        public void EnemyInst(int nextBlockPos, int blockLength)
         {
 
-            int enemyListLength = gameManager.RandomNumber(5, 15);
+            // int enemyListLength = gameManager.RandomNumber(5, 15);
 
-            for (int i = 0; i < enemyListLength; i++)
-            {
-                GameObject enemyHolder = objectPooler.SpawnFromPool(GameManager.EnemyHolder, transform.position);
-                enemyHolder.GetComponent<EnemyHolder>().enemies = gameManager.EnemySpawner(enemyHolder);
-                enemyHolder.transform.position += new Vector3(50 + 100 * i, 7, 0);
-                //enemyHolder.GetComponent<EnemyHolder>().enemies.ForEach(c => c.transform.parent = enemyHolder.transform);
-                //EnemyHolder.GetComponent<EnemyHolder>().id= i;
-            }
+            //for (int i = 0; i < enemyListLength; i++)
+            //{
+            GameObject enemyHolder = objectPooler.SpawnFromPool(GameManager.EnemyHolder, transform.position);
+            enemyHolder.GetComponent<EnemyHolder>().enemies = gameManager.EnemySpawner(enemyHolder);
 
+            enemyHolder.transform.position += new Vector3(nextBlockPos * blockLength, 7, 0);
+            ////enemyHolder.GetComponent<EnemyHolder>().enemies.ForEach(c => c.transform.parent = enemyHolder.transform);
+            ////EnemyHolder.GetComponent<EnemyHolder>().id= i;
+            //}
+            enemyHolderList.Add(enemyHolder.GetComponent<EnemyHolder>());
             enemyHolderArray = enemyHolderList.ToArray();
-            enemyHolderArray = gameManager.Enemies.GetComponentsInChildren<EnemyHolder>();
 
-            for (int i = 0; i < enemyHolderArray.Length; i++)
-            {
-                enemyHolderArray[i].id = i;
-            }
+            //enemyHolderArray = gameManager.Enemies.GetComponentsInChildren<EnemyHolder>();
+
+            enemyHolderArray[id].id = id;
+            id++;
         }
 
 

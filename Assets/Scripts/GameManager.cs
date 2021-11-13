@@ -15,6 +15,8 @@ namespace Count_Master_SAY.Core
         public const string EnemyHolder = "EnemyHolder";
         public const string Floor = "Floor";
         public const string Bridge = "Bridge";
+        public const string Replicator = "Replicator";
+
 
         ObjectPooler objectPooler;
         public static GameManager singleton;
@@ -28,7 +30,7 @@ namespace Count_Master_SAY.Core
         {
             objectPooler = ObjectPooler.singleton;
             enemyManager = EnemyManager.singleton;
-            Invoke("ReplicatorSpawner", 0.01f);
+            //Invoke("ReplicatorSpawner", 0.01f);
 
             /*Enemy*/
             Enemies = new GameObject("Enemies2");
@@ -43,7 +45,7 @@ namespace Count_Master_SAY.Core
             //Level Generator
             float nextFloorTime = 30 / PlayerManager.PersonSpeed;
             LevelGenerator.singleton.Invoke("LevelInst", 0.01f);
-            LevelGenerator.singleton.InvokeRepeating("CreateNextObject", 0.01f, nextFloorTime);
+            LevelGenerator.singleton.InvokeRepeating("CreateNextObject", 0.02f, nextFloorTime);
 
             //
         }
@@ -52,7 +54,7 @@ namespace Count_Master_SAY.Core
             for (int i = 0; i < 30; i++)
             {
                 Vector3 position = new Vector3(i * 100, 0, 0);
-                objectPooler.SpawnFromPool("Replicator", position);
+                objectPooler.SpawnFromPool(Replicator, position);
             }
         }
 
