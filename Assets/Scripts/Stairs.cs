@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Count_Master_SAY.Control;
+
 namespace Count_Master_SAY.Trigger
 {
     public class Stairs : MonoBehaviour
@@ -9,11 +10,11 @@ namespace Count_Master_SAY.Trigger
         int remaining;
         int lineOfAdditionalMaxArragement;
         int lineOfAdditionalArragement;
-        PlayerManager playerManager; 
+        PlayerManager playerManager;
         private void Start()
         {
             playerManager = PlayerManager.singleton; //Initialize
-            EventManager.singleton.onFinishTriggerEnter += OnFinish;        
+            EventManager.singleton.onFinishTriggerEnter += OnFinish;
         }
 
         private void OnDestroy()
@@ -26,7 +27,7 @@ namespace Count_Master_SAY.Trigger
             CalculateSeperation();
             ClimbPersonSeperatly();
             MoveOnByLeaving();
-            CameraCahnge();
+            //CameraCahnge();
         }
         private void CalculateSeperation()
         {
@@ -147,18 +148,25 @@ namespace Count_Master_SAY.Trigger
         }
         private void CameraCahnge()
         {
-            Camera.main.transform.position += new Vector3(-15, 120, -30);
-            Camera.main.transform.rotation = new Quaternion(Camera.main.transform.rotation.x, Camera.main.transform.rotation.y - 27, Camera.main.transform.rotation.z, Camera.main.transform.rotation.w);
-            Camera.main.transform.LookAt(playerManager.persons[0].transform, Vector3.up);
+//Camera.main.transform.position = PlayerManager.singleton.transform.position;
+            //Camera.main.transform.rotation = new Quaternion(Camera.main.transform.rotation.x, 
+            //                                                Camera.main.transform.rotation.y -27, 
+            //                                                Camera.main.transform.rotation.z, 
+            //                                                Camera.main.transform.rotation.w);
+            //Camera.main.transform.LookAt(playerManager.persons[0].transform, Vector3.up);
+
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag=="Player")
+            if (other.tag == "Player")
             {
                 other.GetComponent<Rigidbody>().isKinematic = false;
                 other.transform.SetParent(this.transform);
+                StartCoroutine(playerManager.Vibrate());
             }
+
         }
+
     }
 }
 

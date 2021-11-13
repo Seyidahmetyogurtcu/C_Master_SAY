@@ -3,8 +3,10 @@ using Count_Master_SAY.Trigger;
 using System.Collections.Generic;
 using Count_Master_SAY.Pool;
 using UnityEngine;
-using Count_Master_SAY.Control;
 using Count_Master_SAY.Core;
+using DG.Tweening;
+
+using System.Collections;
 
 namespace Count_Master_SAY.Control
 {
@@ -21,7 +23,7 @@ namespace Count_Master_SAY.Control
         List<Vector3> distanceToCenter = new List<Vector3>();
         List<Vector3> distanceToEnemy = new List<Vector3>();
         List<Vector3> distanceToPlayer = new List<Vector3>();
-        List<int> positionInArray = new List<int>();     
+        List<int> positionInArray = new List<int>();
 
         public static PlayerManager singleton;
         public int enemyGroupID;
@@ -96,7 +98,7 @@ namespace Count_Master_SAY.Control
 
             else if (sign == "x")
             {
-                Vibrator.Vibrate(90); //Add vibration
+                Vibrator.Vibrate(80); //Add vibration
 
                 int totalAdd = (replicatorValue - 1) * persons.Count;
                 for (int i = 1; i <= totalAdd * SlowingMultiplier; i++)
@@ -181,6 +183,7 @@ namespace Count_Master_SAY.Control
                 objectPooler.DisappearFromPool("Person", persons[persons.Count - 1]);
                 persons.RemoveAt(persons.Count - 1);
 
+                StartCoroutine(Vibrate());
                 #region old code
                 //doesPlayerTriggered = true;
                 ////Decrease the enemy with our persons 1 by 1 (start with nearer positions)
@@ -203,8 +206,9 @@ namespace Count_Master_SAY.Control
         }
         private void StopMoving()
         {
-            if (this.transform.childCount < 3)
+            if (!this.transform.GetChild(2).gameObject.activeInHierarchy)
             {
+                DOTween.KillAll();
                 Triggers.singleton.isEnteredAnyTrigger = true;
                 Invoke("WinLevel", 3);
             }
@@ -272,7 +276,7 @@ namespace Count_Master_SAY.Control
             UIManager.singleton.Lose();
         }
         private void WinLevel()
-        {
+        {            
             UIManager.singleton.WinLevel();
         }
         public static void BubbleSort(List<int> input)
@@ -293,16 +297,36 @@ namespace Count_Master_SAY.Control
                 }
             } while (itemMoved);
         }
+
+
+        public IEnumerator Vibrate()
+        {
+            Vibrator.Vibrate(80);
+            yield return new WaitForSeconds(0.5f);
+        }
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag(GameManager.Replicator) && (Time.timeSinceLevelLoad > time))
             {
                 time = Time.timeSinceLevelLoad + Triggers.Delay;
 
-                sign  = other.gameObject.GetComponent<Replicator>().Sign;
+                sign = other.gameObject.GetComponent<Replicator>().Sign;
                 replicatorValue = other.gameObject.GetComponent<Replicator>().ReplicatorValue;
+
+                EventManager.singleton.ReplicatorTriggerEnter(sign); //call add event
             }
-            EventManager.singleton.ReplicatorTriggerEnter(sign); //call add event
+            if (other.CompareTag(Triggers.FinishZone))
+            {
+                int animSpeed = 250;
+                Sequence seq =DOTween.Sequence();
+                //Camera.main.transform.DOLocalMoveX(36, 1);
+                Camera.main.transform.DOLocalMoveY(20, 3);
+                Camera.main.transform.DOLocalMoveZ(-20, 1);             
+                Camera.main.transform.DOLocalRotate(new Vector3(30, 50, 0), 1);
+                seq.SetDelay(3).Append(Camera.main.transform.DOMoveY(140, 11));
+
+
+            }
         }
 
     }

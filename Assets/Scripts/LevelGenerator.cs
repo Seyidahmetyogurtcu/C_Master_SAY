@@ -16,7 +16,7 @@ namespace Count_Master_SAY.Level
         // const float bridgeRate = 0.1f;
         int totalNumberOfLevelBlock;
         string nextFloor = "Floor";
-        string nextBlock = "Empty";
+        string nextBlock = "Replicator";
         int nextBlockPos;
         public GameObject finishPrefab;
         int blockLength = 30;
@@ -30,17 +30,18 @@ namespace Count_Master_SAY.Level
         private void Start()
         {
             objectPooler = ObjectPooler.singleton;
-            totalNumberOfLevelBlock = UnityEngine.Random.Range(10, 51);
-            nextBlockPos = 6;
+            totalNumberOfLevelBlock = 15;// UnityEngine.Random.Range(15, 51);
+            nextBlockPos = 3;
         }
 
         void LevelInst()
         {
             //instantiate first floor
-            for (int i = 0; i < nextBlockPos; i++)
+            for (int i = -1; i < nextBlockPos; i++)
             {
                 objectPooler.SpawnFromPool(nextFloor, new Vector3(i * blockLength, 0, 0));
             }
+            objectPooler.SpawnFromPool(nextBlock, new Vector3((nextBlockPos-1) * blockLength, 0, 0));
         }
 
         void NextFloor(string nextObject)
@@ -58,14 +59,8 @@ namespace Count_Master_SAY.Level
             if (rand <= 9)
             {
                 NextFloor(GameManager.Floor);
-            }
-            else
-            {
-                NextFloor(GameManager.Bridge);
-            }
-
-            if (nextFloor == GameManager.Floor)
-            {
+                
+                //if floor then put object on it
                 int rand2 = UnityEngine.Random.Range(1, 11);//Generetes numbers from 1 to 10
 
                 if (rand2 <= 3) //%30
@@ -81,6 +76,11 @@ namespace Count_Master_SAY.Level
                     NextObjcet("Empty");
                 }
             }
+            else
+            {
+                NextFloor(GameManager.Bridge);
+            }
+
 
             objectPooler.SpawnFromPool(nextFloor, new Vector3(nextBlockPos * blockLength, 0, 0));
             if (nextBlock == GameManager.Enemy)

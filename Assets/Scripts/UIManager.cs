@@ -20,7 +20,6 @@ namespace Count_Master_SAY.UI
         {
             singleton = this;
             Time.timeScale = 0;
-
         }
         private void Start()
         {
@@ -61,11 +60,12 @@ namespace Count_Master_SAY.UI
         }
         public void NextLevelButton()
         {
-            Destroy(levelGenerator.levels[levelGenerator.currentLevel]);
-            levelGenerator.currentLevel++;
-            Instantiate(levelGenerator.levels[levelGenerator.currentLevel], levelGenerator.transform);
+            //Destroy(levelGenerator.levels[levelGenerator.currentLevel]);
+            //levelGenerator.currentLevel++;
+            //Instantiate(levelGenerator.levels[levelGenerator.currentLevel], levelGenerator.transform);
 
-            inGamePanel.SetActive(true);
+            //inGamePanel.SetActive(true);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             #region old code
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             #endregion
