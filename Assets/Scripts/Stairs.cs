@@ -27,7 +27,7 @@ namespace Count_Master_SAY.Trigger
             CalculateSeperation();
             ClimbPersonSeperatly();
             MoveOnByLeaving();
-            //CameraCahnge();
+            StopMoveControl();
         }
         private void CalculateSeperation()
         {
@@ -146,16 +146,14 @@ namespace Count_Master_SAY.Trigger
                 indexCounter++;
             }
         }
-        private void CameraCahnge()
+        private void StopMoveControl()
         {
-//Camera.main.transform.position = PlayerManager.singleton.transform.position;
-            //Camera.main.transform.rotation = new Quaternion(Camera.main.transform.rotation.x, 
-            //                                                Camera.main.transform.rotation.y -27, 
-            //                                                Camera.main.transform.rotation.z, 
-            //                                                Camera.main.transform.rotation.w);
-            //Camera.main.transform.LookAt(playerManager.persons[0].transform, Vector3.up);
-
+            PlayerManager.singleton.doesPlayerTriggered = true;
+            PlayerManager.singleton.transform.position = new Vector3(PlayerManager.singleton.transform.position.x,
+                                                                     PlayerManager.singleton.transform.position.y,
+                                                                     0);
         }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "Player")

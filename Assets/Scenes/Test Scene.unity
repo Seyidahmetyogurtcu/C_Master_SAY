@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d539a989b41025949909d20711a172c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextFloorTime: 0
   Enemies: {fileID: 0}
 --- !u!108 &705507994
 Light:
@@ -404,12 +405,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pools:
+  - tag: Person
+    prefab: {fileID: 6298511003389628308, guid: e7be76469f708e041a36ea1d46167525, type: 3}
+    size: 200
   - tag: Replicator
     prefab: {fileID: 3387463518552580871, guid: a3ad96fac8273c24d92f37b949301aba, type: 3}
     size: 50
-  - tag: Person
-    prefab: {fileID: 6298511003389628308, guid: e7be76469f708e041a36ea1d46167525, type: 3}
-    size: 750
   - tag: EnemyHolder
     prefab: {fileID: 6543175903879833875, guid: 020199268c6c347419744dd23084777a, type: 3}
     size: 15

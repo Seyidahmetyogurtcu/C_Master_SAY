@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using Count_Master_SAY.Control;
+using Count_Master_SAY.Level;
+using Count_Master_SAY.Core;
 /// <summary>
 /// This is for event triggers,this class trigger and call events 
 /// </summary>
@@ -52,6 +54,8 @@ namespace Count_Master_SAY.Trigger
                 //Call this event
                 EventManager.singleton.PlayerAtackTriggerEnter(id);
                 isEnteredAnyTrigger = true;
+                LevelGenerator.singleton.CancelInvoke("CreateNextObject");
+
             }
             else if (other.tag == FinishZone)
             {
@@ -66,6 +70,8 @@ namespace Count_Master_SAY.Trigger
             {
                 //Call this event
                 isEnteredAnyTrigger = false;
+                LevelGenerator.singleton.InvokeRepeating("CreateNextObject", 0.02f, GameManager.singleton.nextFloorTime);
+
             }
         }
     }

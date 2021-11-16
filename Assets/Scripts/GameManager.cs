@@ -17,7 +17,7 @@ namespace Count_Master_SAY.Core
         public const string Bridge = "Bridge";
         public const string Replicator = "Replicator";
 
-
+        public float nextFloorTime;
         ObjectPooler objectPooler;
         public static GameManager singleton;
         [HideInInspector] public GameObject Enemies;
@@ -43,9 +43,11 @@ namespace Count_Master_SAY.Core
         void InstantiateGame()
         {
             //Level Generator
-            float nextFloorTime = 30 / PlayerManager.PersonSpeed;
+            nextFloorTime = 30 / PlayerManager.PersonSpeed;
             LevelGenerator.singleton.Invoke("LevelInst", 0.01f);
+
             LevelGenerator.singleton.InvokeRepeating("CreateNextObject", 0.02f, nextFloorTime);
+
 
             //
         }

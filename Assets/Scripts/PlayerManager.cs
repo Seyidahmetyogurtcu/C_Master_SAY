@@ -76,6 +76,10 @@ namespace Count_Master_SAY.Control
                 StopMoving();
                 LoseDetection();
             }
+            if (!doesPlayerTriggered)
+            {
+                InputManager.singleton.ControlPersons();
+            }
         }
 
 

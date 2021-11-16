@@ -39,7 +39,7 @@ namespace Count_Master_SAY.Pool
                 Queue<GameObject> objectPool = new Queue<GameObject>();
 
                 GameObject gates = GameObject.Find("Gates");
-                
+
                 for (int i = 0; i < pool.size; i++) // fill one tag of pool
                 {
                     GameObject obj;
@@ -49,12 +49,12 @@ namespace Count_Master_SAY.Pool
                         obj = Instantiate(pool.prefab, gates.transform);
                         obj.AddComponent<Replicator>(); //add sign and number properties for each Replicator            
                     }
-                    else if (pool.tag==GameManager.EnemyHolder)
+                    else if (pool.tag == GameManager.EnemyHolder)
                     {
                         obj = Instantiate(pool.prefab, gameManager.Enemies.transform);
                         obj.AddComponent<EnemyHolder>();
                     }
-                    else if (pool.tag ==GameManager.Enemy)
+                    else if (pool.tag == GameManager.Enemy)
                     {
                         obj = Instantiate(pool.prefab, gameManager.Enemies.transform);
                     }
@@ -63,10 +63,10 @@ namespace Count_Master_SAY.Pool
                         GameObject floors = GameObject.Find("Floors");
                         obj = Instantiate(pool.prefab, floors.transform);
                     }
-                    else if (pool.tag ==GameManager.Bridge)
+                    else if (pool.tag == GameManager.Bridge)
                     {
                         GameObject bridges = GameObject.Find("Bridges");
-                        obj = Instantiate(pool.prefab, bridges.transform);                       
+                        obj = Instantiate(pool.prefab, bridges.transform);
                     }
                     else
                     {
@@ -91,26 +91,28 @@ namespace Count_Master_SAY.Pool
         /// <returns></returns>
         public GameObject SpawnFromPool(string tag, Vector3 position)
         {
+
             if (!poolDictionary.ContainsKey(tag))
             {
                 Debug.LogWarning("Pool with tag" + tag + "doesn't exist");
                 return null;
             }
-            //Spawn First object which was added to the queue at desire position 
-            GameObject objectToSpawn = poolDictionary[tag].Dequeue();
-            objectToSpawn.SetActive(true);
-            objectToSpawn.transform.position = position;
-            if (true)
-            {
 
-            }
-            if (playerManager.persons.Count == poolDictionary[tag].Count)
+            if (tag == GameManager.Person && playerManager.persons.Count >= poolDictionary[tag].Count)
             {
-                GameObject obj = Instantiate(pools[0].prefab, playerManager.transform); // TODO:fix and make better this part
-                obj.SetActive(false);
-                poolDictionary[tag].Enqueue(obj);
+                GameObject instantiatedObj = Instantiate(pools[0].prefab, playerManager.transform); // TODO:fix and make better this part               
+                instantiatedObj.transform.position = position;
+                return instantiatedObj;
             }
-            return objectToSpawn;
+            else
+            {
+                //Spawn First object which was added to the queue at desire position 
+                GameObject objectToSpawn = poolDictionary[tag].Dequeue();
+                objectToSpawn.SetActive(true);
+                objectToSpawn.transform.position = position;
+                return objectToSpawn;
+            }
+
         }
 
         /// <summary>
