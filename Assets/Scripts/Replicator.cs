@@ -4,13 +4,19 @@ using UnityEngine.UI;
 public class Replicator : MonoBehaviour
 {
     Text text;
-    public int ReplicatorValue { get; set; }
-    public string Sign { get; set; }
-
+    public int ReplicatorValue;
+    public string Sign;
+    int probabilityOfSign;
+    int probabilityOfNum;
     private void Start()
     {
-        //get random text
-        int probabilityOfSign = UnityEngine.Random.Range(0, 100);
+        probabilityOfSign = UnityEngine.Random.Range(0, 100);
+        probabilityOfNum = UnityEngine.Random.Range(0, 10);
+    }
+
+    public void CalculateReplicator(int probabilityOfSign, int probabilityOfNum)
+    {
+        //get initial random text
         if (probabilityOfSign < 20)// ~%20 probability
         {
             Sign = "x";
@@ -20,21 +26,20 @@ public class Replicator : MonoBehaviour
             Sign = "+";
         }
 
-        int randomInt = UnityEngine.Random.Range(0, 10);
         if (Sign == "x")
         {
-            ReplicatorValue = (randomInt % 6);//multiplier is less then 6
+            ReplicatorValue = 1 + (probabilityOfNum % 5);//multiplier is less then 6
         }
         else
         {
             //if Sign is Adder
-            if (randomInt > 2)// ~%80 probability
+            if (probabilityOfNum > 2)// ~%80 probability
             {
-                ReplicatorValue = randomInt * 10;
+                ReplicatorValue = 10 + probabilityOfNum * 10;
             }
             else
             {
-                ReplicatorValue = randomInt * 100;
+                ReplicatorValue = 10 + probabilityOfNum * 100;
             }
         }
         //add to text

@@ -1,4 +1,5 @@
 ﻿using Count_Master_SAY.Core;
+using Count_Master_SAY.Level;
 using Count_Master_SAY.Pool;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Count_Master_SAY.Control
         public EnemyHolder[] enemyHolderArray;
 
         public static EnemyManager singleton;
-        GameManager gameManager;
+        LevelGenerator levelGenerator;
         ObjectPooler objectPooler;
         int id = 0;
         private void Awake()
@@ -21,7 +22,7 @@ namespace Count_Master_SAY.Control
         }
         private void Start()
         {
-            gameManager = GameManager.singleton;
+            levelGenerator = LevelGenerator.singleton;
             objectPooler = ObjectPooler.singleton;
         }
 
@@ -33,7 +34,7 @@ namespace Count_Master_SAY.Control
             //for (int i = 0; i < enemyListLength; i++)
             //{
             GameObject enemyHolder = objectPooler.SpawnFromPool(GameManager.EnemyHolder, transform.position);
-            enemyHolder.GetComponent<EnemyHolder>().enemies = gameManager.EnemySpawner(enemyHolder);
+            enemyHolder.GetComponent<EnemyHolder>().enemies = levelGenerator.EnemySpawner(enemyHolder);
 
             enemyHolder.transform.position += new Vector3(nextBlockPos * blockLength, 7, 0);
             ////enemyHolder.GetComponent<EnemyHolder>().enemies.ForEach(c => c.transform.parent = enemyHolder.transform);

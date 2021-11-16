@@ -206,7 +206,7 @@ namespace Count_Master_SAY.Control
         }
         private void StopMoving()
         {
-            if (!this.transform.GetChild(2).gameObject.activeInHierarchy)
+            if (!this.transform.GetChild(3).gameObject.activeInHierarchy)//constrol is 4. child of playermanager game object is exist(there are 3 default object)
             {
                 DOTween.KillAll();
                 Triggers.singleton.isEnteredAnyTrigger = true;
@@ -323,7 +323,7 @@ namespace Count_Master_SAY.Control
                 Camera.main.transform.DOLocalMoveY(20, 3);
                 Camera.main.transform.DOLocalMoveZ(-20, 1);             
                 Camera.main.transform.DOLocalRotate(new Vector3(30, 50, 0), 1);
-                seq.SetDelay(3).Append(Camera.main.transform.DOMoveY(140, 11));
+                seq.SetDelay(3).Append(Camera.main.transform.DOMoveY(150, 12));
 
 
             }
