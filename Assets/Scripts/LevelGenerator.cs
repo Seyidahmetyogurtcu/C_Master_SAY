@@ -20,11 +20,12 @@ namespace Count_Master_SAY.Level
         int nextBlockPos;
         public GameObject finishPrefab;
         int blockLength = 30;
-        int minEnemyNum;
-        int maxEnemyNum;
+        int minEnemyNum=1;
+        int maxEnemyNum=5;
         GameObject replicator;
         int probabilityOfSign;
         int probabilityOfNum;
+        bool finLineCreated;
         void Awake()
         {
             singleton = this;
@@ -33,7 +34,7 @@ namespace Count_Master_SAY.Level
         private void Start()
         {
             objectPooler = ObjectPooler.singleton;
-            totalNumberOfLevelBlock =  UnityEngine.Random.Range(15, 51);
+            totalNumberOfLevelBlock =  UnityEngine.Random.Range(15, 21);
             nextBlockPos = 3;
         }
 
@@ -109,13 +110,13 @@ namespace Count_Master_SAY.Level
             }
             nextBlockPos++;
 
-
-            if (nextBlockPos == (totalNumberOfLevelBlock - 8))
+            int finalPart=9;
+            if (nextBlockPos == (totalNumberOfLevelBlock - finalPart))
             {
                 CancelInvoke("CreateNextObject");
 
                 //instantiate finish line;
-                for (int i = nextBlockPos; i <= nextBlockPos + 8; i++)
+                for (int i = nextBlockPos; i <= nextBlockPos + finalPart; i++)
                 {
                     objectPooler.SpawnFromPool(GameManager.Floor, new Vector3(i * blockLength, 0, 0));
                 }
@@ -123,9 +124,12 @@ namespace Count_Master_SAY.Level
                 GameObject platform = GameObject.Find("Platform");
                 Vector3 finishPos = new Vector3((nextBlockPos) * blockLength, 0, 0);
                 Instantiate(finishPrefab, finishPos, Quaternion.identity, platform.transform);
+                finLineCreated = true;
             }
-
-            CalculateNextObjNum(numberOfPerson);
+            if (!finLineCreated)
+            {
+                CalculateNextObjNum(numberOfPerson);
+            }
         }
 
         void CalculateNextObjNum(int numberOfPerson)

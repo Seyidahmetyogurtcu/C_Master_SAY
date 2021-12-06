@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 6576779778859754738}
   m_Layer: 0
   m_Name: PlayerManager
-  m_TagString: Untagged
+  m_TagString: PlayerManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -240,7 +240,8 @@ MonoBehaviour:
   - {fileID: 877538096330048403}
   personPrefab: {fileID: 6298511003389628308, guid: e7be76469f708e041a36ea1d46167525, type: 3}
   enemyGroupID: 0
-  doesPlayerTriggered: 0
+  enemyTriggeredPlayer: 0
+  finTriggeredPlayer: 0
   enemiesCount: 0
 --- !u!114 &6576779778859754751
 MonoBehaviour:

@@ -27,7 +27,8 @@ namespace Count_Master_SAY.Control
 
         public static PlayerManager singleton;
         public int enemyGroupID;
-        public bool doesPlayerTriggered;
+        public bool enemyTriggeredPlayer;
+        public bool finTriggeredPlayer;
         public int enemiesCount;
         ObjectPooler objectPooler;
         int replicatorValue;
@@ -62,7 +63,7 @@ namespace Count_Master_SAY.Control
             {
                 FallDetection();
 
-                if (!doesPlayerTriggered)
+                if (!enemyTriggeredPlayer)
                 {
                     Invoke("Attract", 0.01f);
                 }
@@ -76,7 +77,7 @@ namespace Count_Master_SAY.Control
                 StopMoving();
                 LoseDetection();
             }
-            if (!doesPlayerTriggered)
+            if (!finTriggeredPlayer && !enemyTriggeredPlayer)
             {
                 InputManager.singleton.ControlPersons();
             }
@@ -164,6 +165,7 @@ namespace Count_Master_SAY.Control
             AttractPersonsAndEnemies();
             enemyGroupID = id;
             InvokeRepeating("KillNextEnemyAndPerson", 0, 0.05f);
+            InvokeRepeating("Vibrate",0,0.2f);
         }
         private void OnPlayerMove()
         {
@@ -173,7 +175,7 @@ namespace Count_Master_SAY.Control
 
         private void KillNextEnemyAndPerson()
         {
-            doesPlayerTriggered = true;
+            enemyTriggeredPlayer = true;
             //GetEnemyList()
             enemiesCount = EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies.Count;
 
@@ -187,9 +189,8 @@ namespace Count_Master_SAY.Control
                 objectPooler.DisappearFromPool("Person", persons[persons.Count - 1]);
                 persons.RemoveAt(persons.Count - 1);
 
-                StartCoroutine(Vibrate());
                 #region old code
-                //doesPlayerTriggered = true;
+                //enemyTriggeredPlayer = true;
                 ////Decrease the enemy with our persons 1 by 1 (start with nearer positions)
                 //Destroy(EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies[EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies.Count - 1]);
                 //EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies.RemoveAt(EnemyManager.singleton.enemyHolderArray[enemyGroupID].enemies.Count - 1);
@@ -201,7 +202,8 @@ namespace Count_Master_SAY.Control
             else
             {
                 CancelInvoke("KillNextEnemyAndPerson");
-                doesPlayerTriggered = false;
+                CancelInvoke("Vibrate");
+                enemyTriggeredPlayer = false;
                 Vector3 shiftedPosition = new Vector3(0, 0, 100);
                 EnemyManager.singleton.enemyHolderArray[enemyGroupID].GetComponent<BoxCollider>().transform.position += shiftedPosition;
             }
@@ -303,10 +305,9 @@ namespace Count_Master_SAY.Control
         }
 
 
-        public IEnumerator Vibrate()
+        void Vibrate()
         {
             Vibrator.Vibrate(80);
-            yield return new WaitForSeconds(0.5f);
         }
         private void OnTriggerEnter(Collider other)
         {

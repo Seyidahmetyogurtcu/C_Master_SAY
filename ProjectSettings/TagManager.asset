@@ -10,6 +10,7 @@ TagManager:
   - Replicator
   - Floor
   - Bridge
+  - PlayerManager
   layers:
   - Default
   - TransparentFX
