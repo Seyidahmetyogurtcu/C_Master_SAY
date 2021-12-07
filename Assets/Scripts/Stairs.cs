@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using Count_Master_SAY.Control;
-using DG.Tweening;
-using System.Collections;
 
 namespace Count_Master_SAY.Trigger
 {
