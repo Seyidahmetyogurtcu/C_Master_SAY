@@ -111,6 +111,8 @@ namespace Count_Master_SAY.Trigger
         }
         IEnumerator TempMethod()
         {
+            InvokeRepeating("Vibrate", 0, 0.2f);
+
             maxLine = maxArragementLineLength * 2 + lineOfAdditionalArragement + lineOfAdditionalMaxArragement;
             int numberofObjectPerLine = 1;
             int indexCounter = 0;
@@ -136,7 +138,7 @@ namespace Count_Master_SAY.Trigger
                     indexCounter++;
                     // }
                 }
-                for (int k = 0; k < indexCounter - 1; k++)
+                for (int k = 0; k < indexCounter-1; k++)
                 {
                     //  Sequence seq = DOTween.Sequence();
                     //   if (indexCounter == (playerManager.persons.Count - 1) && k == indexCounter - 1)
@@ -165,7 +167,7 @@ namespace Count_Master_SAY.Trigger
                 numberofObjectPerLine++;
                 dubleIteration++;
 
-                Vibrator.Vibrate(80);
+                // Vibrator.Vibrate(80);
                 yield return new WaitForSeconds(0.1f);
             }
             for (int j = 0; j < lineOfAdditionalMaxArragement; j++)
@@ -173,15 +175,11 @@ namespace Count_Master_SAY.Trigger
                 playerManager.persons[indexCounter].transform.position = new Vector3(playerManager.transform.position.x, 0, maxLine - 2 * j);
                 indexCounter++;
             }
-
+            CancelInvoke("Vibrate");
         }
         void Vibrate()
         {
             Vibrator.Vibrate(80);
-        }
-        void StopVibrate()
-        {
-            CancelInvoke();
         }
         private void StopMoveControl()
         {
@@ -195,10 +193,10 @@ namespace Count_Master_SAY.Trigger
         {
             if (other.tag == "PlayerManager")
             {
-                InvokeRepeating("Vibrate", 0, 0.3f);
-
-                float vibrateTime = (maxLine + lineOfAdditionalMaxArragement-1) * 0.3f;
-                Invoke("StopVibrate", vibrateTime);
+                for (int i = 0; i < maxLine + lineOfAdditionalMaxArragement; i++)
+                {
+                    Invoke("Vibrate", 0.3f);
+                }
             }
         }
     }

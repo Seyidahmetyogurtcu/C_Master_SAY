@@ -34,7 +34,7 @@ namespace Count_Master_SAY.Level
         private void Start()
         {
             objectPooler = ObjectPooler.singleton;
-            totalNumberOfLevelBlock =  UnityEngine.Random.Range(15, 51);
+            totalNumberOfLevelBlock =  UnityEngine.Random.Range(15, 21);
             nextBlockPos = 3;
         }
 
